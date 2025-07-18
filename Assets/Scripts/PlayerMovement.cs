@@ -3,27 +3,52 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    public CharacterController controller;
-    public float speed = 5f;
+    private Vector3 _velocity;
+    private bool _jumpPressed;
+
+    private CharacterController _controller;
+
+    public float PlayerSpeed = 2f;
+
+    public float JumpForce = 5f;
+    public float GravityValue = -9.81f;
 
     private void Awake()
     {
-        // Gán controller nếu chưa gán trong Inspector
-        if (controller == null)
+        _controller = GetComponent<CharacterController>();
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
         {
-            controller = GetComponent<CharacterController>();
+            _jumpPressed = true;
         }
     }
 
     public override void FixedUpdateNetwork()
     {
-        // Chỉ player local (có quyền điều khiển) mới được xử lý input
-        if (!Object.HasStateAuthority) return;
+        // FixedUpdateNetwork is only executed on the StateAuthority
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 move = Vector3.right * x + Vector3.forward * z;
+        if (_controller.isGrounded)
+        {
+            _velocity = new Vector3(0, -1, 0);
+        }
 
-        controller.Move(move * speed * Runner.DeltaTime); // Dùng Runner.DeltaTime cho đúng network tick
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Runner.DeltaTime * PlayerSpeed;
+
+        _velocity.y += GravityValue * Runner.DeltaTime;
+        if (_jumpPressed && _controller.isGrounded)
+        {
+            _velocity.y += JumpForce;
+        }
+        _controller.Move(move + _velocity * Runner.DeltaTime);
+
+        if (move != Vector3.zero)
+        {
+            gameObject.transform.forward = move;
+        }
+
+        _jumpPressed = false;
     }
 }
