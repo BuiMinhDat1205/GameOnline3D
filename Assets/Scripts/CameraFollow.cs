@@ -34,7 +34,7 @@ public class CameraFollow : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha1) && soLanBamChuot1 == 1)
         {
             Debug.Log("TAT1");
-            cam3rd.ShoulderOffset = new Vector3(0.8f, 2.02f, 1.17f); // Góc gần
+            cam3rd.ShoulderOffset = new Vector3(0f, 0.5f, 4.5f); // Góc gần
             soLanBamChuot1 = 0;
         }
     }
