@@ -29,7 +29,7 @@ public class PlayerMovement : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         // FixedUpdateNetwork is only executed on the StateAuthority
-
+        if (!Object.HasInputAuthority) return;
         if (_controller.isGrounded)
         {
             _velocity = new Vector3(0, -1, 0);
