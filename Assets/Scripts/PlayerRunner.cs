@@ -4,13 +4,28 @@ using UnityEngine;
 public class PlayerRunner : SimulationBehaviour, IPlayerJoined
 {
     public GameObject PlayerPrefabs;
-
     public void PlayerJoined(PlayerRef player)
     {
+        Debug.Log("spaw");
         if (player == Runner.LocalPlayer)
         {
-            // Spawn player có gán quyền điều khiển đúng (inputAuthority)
-            Runner.Spawn(PlayerPrefabs, new Vector3(0, 1, 0), Quaternion.identity, player);
+            Runner.Spawn(PlayerSpaw[chooseChatacter], new Vector3(vX, vY, vZ), Quaternion.identity, player,
+                (runner, obj) =>
+                {
+                    // Sau khi spawn xong, bạn có thể setup camera hoặc logic khác
+                    var playerSetup = obj.GetComponent<PlayerSetUp>();
+                    if (playerSetup != null)
+                    {
+                        playerSetup.SetUpCamera();
+                    }
+
+                });
+
+
         }
     }
 }
+
+
+
+
