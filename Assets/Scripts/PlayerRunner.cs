@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerRunner : SimulationBehaviour, IPlayerJoined
 {
+    public GameObject chooserMode;
+    public GameObject startGame;
+
     [Header("Player Setup")]
     public GameObject[] PlayerSpaw; // Danh sách prefab các nhân vật
     public int chooseChatacter = 0;
@@ -12,6 +15,11 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
     public float vY = 1f;
     public float vZ = 0f;
 
+    private void Start()
+    {
+        chooserMode.SetActive(true);
+        startGame.SetActive(false);
+    }
     public void PlayerJoined(PlayerRef player)
     {
         Debug.Log("Spawn Player");
@@ -33,5 +41,18 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                     }
                 });
         }
+    }
+
+    public void ChooseHuman()
+    {
+        chooseChatacter = 0;
+        Destroy(chooserMode);
+        startGame.SetActive(true);
+    }
+    public void ChooseHulk()
+    {
+        chooseChatacter = 1;
+        Destroy(chooserMode);
+        startGame.SetActive(true);
     }
 }
