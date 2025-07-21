@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5d2f5d6f70f1549924ae6a955101f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doNhayChuot: 50
+  doNhayChuot: 5000
   xXoayMat: 0
   yXoayMat: 0
 --- !u!1 &4426926038558066779

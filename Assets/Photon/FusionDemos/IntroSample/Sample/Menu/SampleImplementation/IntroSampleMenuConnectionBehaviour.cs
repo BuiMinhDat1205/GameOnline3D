@@ -134,7 +134,7 @@ namespace FusionDemo {
       if (peerMode is NetworkProjectConfig.PeerModes.Multiple) return;
       
       for (int i = SceneManager.sceneCount-1; i > 0; i--) {
-        SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
+                await SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i));
       }
     }
     
