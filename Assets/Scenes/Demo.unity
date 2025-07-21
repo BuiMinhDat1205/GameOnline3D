@@ -737,8 +737,8 @@ MonoBehaviour:
   chooserMode: {fileID: 2128774636}
   startGame: {fileID: 603807444}
   PlayerSpaw:
-  - {fileID: 3990167442910644171, guid: c517ea89edd4f2740baa6ca6c2a73eea, type: 3}
-  - {fileID: 1396650927170646917, guid: ec8d93d60a29a7842814985ee62f3bad, type: 3}
+  - {fileID: 7289672622306119838, guid: d132386f93d633640bc80c5fb3f8cf10, type: 3}
+  - {fileID: 8075822309549516831, guid: 01b32e7d6cd93a74dbd008f8f5138591, type: 3}
   chooseChatacter: 0
   vX: 0
   vY: 3
