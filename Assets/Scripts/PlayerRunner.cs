@@ -39,7 +39,7 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                     {
                         playerSetup.SetUpCamera(); // Gắn camera follow player
                     }
-                                          chooserMode.SetActive(false);
+                                          
                 });
   
 
