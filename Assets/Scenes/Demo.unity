@@ -707,7 +707,7 @@ MonoBehaviour:
   startGame: {fileID: 603807444}
   PlayerSpaw:
   - {fileID: 3990167442910644171, guid: c517ea89edd4f2740baa6ca6c2a73eea, type: 3}
-  - {fileID: 3990167442910644171, guid: d3a03ca8614ae3747a2bdc00ee320a9a, type: 3}
+  - {fileID: 1396650927170646917, guid: ec8d93d60a29a7842814985ee62f3bad, type: 3}
   chooseChatacter: 0
   vX: 0
   vY: 3

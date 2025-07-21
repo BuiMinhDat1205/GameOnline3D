@@ -28,26 +28,32 @@ public class PlayerMovement : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // FixedUpdateNetwork is only executed on the StateAuthority
         if (!Object.HasInputAuthority) return;
+
         if (_controller.isGrounded)
         {
             _velocity = new Vector3(0, -1, 0);
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Runner.DeltaTime * PlayerSpeed;
+        // Lấy input
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
 
+        // Di chuyển theo local space (hướng của nhân vật)
+        Vector3 move = (transform.right * h + transform.forward * v).normalized * PlayerSpeed * Runner.DeltaTime;
+
+        // Gravity + Jump
         _velocity.y += GravityValue * Runner.DeltaTime;
         if (_jumpPressed && _controller.isGrounded)
         {
             _velocity.y += JumpForce;
         }
+
+        // Thực hiện di chuyển
         _controller.Move(move + _velocity * Runner.DeltaTime);
 
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
+        // Không thay đổi hướng nhân vật
+        // Nếu muốn xoay theo trục Y bằng input, có thể thêm đoạn xoay bên ngoài
 
         _jumpPressed = false;
     }
