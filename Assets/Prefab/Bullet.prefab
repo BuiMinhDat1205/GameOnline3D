@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 6009999830244204259}
   - component: {fileID: 8743397949864551310}
   - component: {fileID: 2126122901920180821}
+  - component: {fileID: 3743955273485345113}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -140,6 +141,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 6009999830244204259}
+  - {fileID: 3743955273485345113}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &6009999830244204259
 MonoBehaviour:
@@ -207,3 +209,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7196837582241425940, guid: 6acbc66c8687fe64eafe9e9fe5df6a8f, type: 3}
+--- !u!114 &3743955273485345113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8585542772986347399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad713d7d8073ef94fb9b6b05de967a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 3
+  speed: 50

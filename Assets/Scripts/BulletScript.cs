@@ -4,6 +4,8 @@ using Fusion;
 public class BulletScript : NetworkBehaviour
 {
     public float lifetime = 3f;
+    public float speed = 15f;
+
 
     [Networked]
     public PlayerRef Owner { get; set; }
@@ -22,6 +24,7 @@ public class BulletScript : NetworkBehaviour
                 Runner.Despawn(Object);
             }
         }
+        transform.position += transform.forward * Time.deltaTime * speed;
     }
 
     private void OnTriggerEnter(Collider other)

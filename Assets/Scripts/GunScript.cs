@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Fusion;
 
 public class GunScript : NetworkBehaviour
 {
-    public NetworkPrefabRef bulletPrefabs; // D�ng NetworkPrefabRef ?? t??ng th�ch v?i Runner.Spawn
+    public NetworkPrefabRef bulletPrefabs; // Dùng NetworkPrefabRef ?? t??ng thích v?i Runner.Spawn
     public Transform firePoint;
 
     void Update()
@@ -12,7 +12,10 @@ public class GunScript : NetworkBehaviour
         {
             if (Runner.IsServer || Runner.IsSharedModeMasterClient)
             {
-                var bullet = Runner.Spawn(bulletPrefabs, firePoint.position, firePoint.rotation, Object.InputAuthority);
+                Quaternion direction = Quaternion.LookRotation(transform.forward);
+                Quaternion correction = Quaternion.Euler(-90, 180, 0); // Tùy chỉnh theo mô hình bạn
+                Quaternion finalRotation = direction * correction;
+                var bullet = Runner.Spawn(bulletPrefabs, firePoint.position, finalRotation, Object.InputAuthority);
                 bullet.GetComponent<BulletScript>().Owner = Object.InputAuthority;
                 bullet.GetComponent<Rigidbody>().AddForce(firePoint.forward * 40f, ForceMode.Impulse);
             }
