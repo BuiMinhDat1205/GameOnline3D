@@ -39,20 +39,25 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                     {
                         playerSetup.SetUpCamera(); // Gắn camera follow player
                     }
+                                          chooserMode.SetActive(false);
                 });
+  
+
         }
     }
 
     public void ChooseHuman()
     {
         chooseChatacter = 0;
-        Destroy(chooserMode);
+        //Destroy(chooserMode);
+        chooserMode.SetActive(false);
         startGame.SetActive(true);
     }
     public void ChooseHulk()
     {
         chooseChatacter = 1;
-        Destroy(chooserMode);
+        //Destroy(chooserMode);
+        chooserMode.SetActive(false);
         startGame.SetActive(true);
     }
 }
