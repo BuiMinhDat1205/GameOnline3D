@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerSetUp : NetworkBehaviour
 {
-
-        public void SetUpCamera()
+    [System.Obsolete]
+    public void SetUpCamera()
         {
             if (Object.HasInputAuthority)
             {
