@@ -615,7 +615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1101886932}
   - component: {fileID: 1101886931}
-  - component: {fileID: 1101886933}
+  - component: {fileID: 1101886936}
   - component: {fileID: 1101886930}
   - component: {fileID: 1101886934}
   - component: {fileID: 1101886935}
@@ -722,27 +722,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1101886933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101886929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9cd433057cfa1940b111640d48ae925, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chooserMode: {fileID: 2128774636}
-  startGame: {fileID: 603807444}
-  PlayerSpaw:
-  - {fileID: 7289672622306119838, guid: d132386f93d633640bc80c5fb3f8cf10, type: 3}
-  - {fileID: 8075822309549516831, guid: 01b32e7d6cd93a74dbd008f8f5138591, type: 3}
-  chooseChatacter: 0
-  vX: 0
-  vY: 3
-  vZ: 0
 --- !u!114 &1101886934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +750,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DelayIfSceneManagerIsBusy: 1
+--- !u!114 &1101886936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101886929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c669c03d7b0984ba6c4e537950cc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chooserMode: {fileID: 2128774636}
+  startGame: {fileID: 603807444}
+  PlayerSpaw:
+  - {fileID: 4427656985779436947, guid: 8e0f6e1000783f0429155e1076bc5b10, type: 3}
+  - {fileID: 7178916968710526483, guid: 24775da223a42714687ed239868067ea, type: 3}
+  chooseChatacter: 0
+  vX: 0
+  vY: 1
+  vZ: 0
 --- !u!1 &1175577460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,8 +1041,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1101886933}
-        m_TargetAssemblyTypeName: PlayerRunner, Assembly-CSharp
+      - m_Target: {fileID: 1101886936}
+        m_TargetAssemblyTypeName: PlayerRunner1, Assembly-CSharp
         m_MethodName: ChooseHulk
         m_Mode: 1
         m_Arguments:
@@ -1174,8 +1174,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1101886933}
-        m_TargetAssemblyTypeName: PlayerRunner, Assembly-CSharp
+      - m_Target: {fileID: 1101886936}
+        m_TargetAssemblyTypeName: PlayerRunner1, Assembly-CSharp
         m_MethodName: ChooseHuman
         m_Mode: 1
         m_Arguments:
@@ -1406,7 +1406,8 @@ GameObject:
   - component: {fileID: 1974098569}
   - component: {fileID: 1974098568}
   - component: {fileID: 1974098567}
-  - component: {fileID: 1974098566}
+  - component: {fileID: 1974098571}
+  - component: {fileID: 1974098572}
   m_Layer: 0
   m_Name: Third Person Aim Camera
   m_TagString: Untagged
@@ -1414,21 +1415,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1974098566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1974098565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8baef7a0ba213b34d933a646f9149233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 1974098569}
-  cam3rd: {fileID: 1974098568}
-  soLanBamChuot1: 0
 --- !u!114 &1974098567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,6 +1517,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1974098571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974098565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f437869a21b75c48bcc2335cfdb5829, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1974098569}
+  cam3rd: {fileID: 1974098568}
+  soLanBamChuot1: 0
+--- !u!114 &1974098572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974098565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7362d5a2f8ea3347bfcc808a1e9290e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FocusTarget: 0
+  CustomTarget: {fileID: 0}
+  FocusDepthOffset: 0
+  Damping: 0.2
 --- !u!1 &1989126516
 GameObject:
   m_ObjectHideFlags: 0

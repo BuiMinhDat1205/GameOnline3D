@@ -47,10 +47,11 @@ public class NetworkHealth : NetworkBehaviour
 
     public void TruHealth(int hp)
     {
+        if (!Object.HasStateAuthority) return;
         Health -= hp;
     }
     public float GetHp()
-    {
+    {   
         return Health;
     }
 
