@@ -206,7 +206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -408.20886, y: 76.16904}
+  m_AnchoredPosition: {x: -408.20886, y: 146}
   m_SizeDelta: {x: 130.2973, y: 22.1651}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4729391575483340071
@@ -748,7 +748,6 @@ GameObject:
   - component: {fileID: 5960230670521028236}
   - component: {fileID: 3149285260221400436}
   - component: {fileID: 5403406950799923459}
-  - component: {fileID: 5217249993404705831}
   - component: {fileID: 4401191945580837921}
   m_Layer: 0
   m_Name: Player 2 1 1
@@ -927,20 +926,6 @@ MonoBehaviour:
   bulletPrefabs:
     RawGuidValue: f1c24dc36b65de24ab16093f518a7397
   firePoint: {fileID: 7071044678842372528}
---- !u!114 &5217249993404705831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953858070895924410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 01b32e7d6cd93a74dbd008f8f5138591
 --- !u!114 &4401191945580837921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3369,7 +3354,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -421.79, y: -89.56}
+  m_AnchoredPosition: {x: -421.91, y: -89.77}
   m_SizeDelta: {x: 2, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3983265568012164322
