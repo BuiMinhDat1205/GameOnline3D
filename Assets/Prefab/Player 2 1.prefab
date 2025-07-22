@@ -2260,7 +2260,6 @@ GameObject:
   - component: {fileID: 4303335573164676836}
   - component: {fileID: 4719322495631753050}
   - component: {fileID: 4270490608665483887}
-  - component: {fileID: 1215832208999048349}
   m_Layer: 0
   m_Name: Player 2 1
   m_TagString: Player
@@ -2417,7 +2416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5d2f5d6f70f1549924ae6a955101f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doNhayChuot: 5000
+  doNhayChuot: 50
   xXoayMat: 0
   yXoayMat: 0
 --- !u!114 &4270490608665483887
@@ -2435,20 +2434,6 @@ MonoBehaviour:
   bulletPrefabs:
     RawGuidValue: f1c24dc36b65de24ab16093f518a7397
   firePoint: {fileID: 7010975595391799714}
---- !u!114 &1215832208999048349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8075822309549516831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: ec8d93d60a29a7842814985ee62f3bad
 --- !u!1 &8173297306079096988
 GameObject:
   m_ObjectHideFlags: 0
