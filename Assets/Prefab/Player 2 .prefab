@@ -746,9 +746,9 @@ GameObject:
   - component: {fileID: 668406462597147327}
   - component: {fileID: 2210236016848882796}
   - component: {fileID: 5960230670521028236}
-  - component: {fileID: 3149285260221400436}
   - component: {fileID: 5403406950799923459}
   - component: {fileID: 4401191945580837921}
+  - component: {fileID: -8180660210386434089}
   m_Layer: 0
   m_Name: 'Player 2 '
   m_TagString: Player
@@ -848,9 +848,9 @@ MonoBehaviour:
   - {fileID: 668406462597147327}
   - {fileID: 2210236016848882796}
   - {fileID: 5960230670521028236}
-  - {fileID: 3149285260221400436}
   - {fileID: 5403406950799923459}
   - {fileID: 4401191945580837921}
+  - {fileID: -8180660210386434089}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &668406462597147327
 MonoBehaviour:
@@ -896,21 +896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83fc22bd8d9a027478316bd43a0045c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3149285260221400436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953858070895924410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab5d2f5d6f70f1549924ae6a955101f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doNhayChuot: 50
-  xXoayMat: 0
-  yXoayMat: 0
 --- !u!114 &5403406950799923459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,6 +928,21 @@ MonoBehaviour:
   healthSlider: {fileID: 3983265568012164322}
   healthLocal: {fileID: 1933288345147737616}
   healthSiderLocal: {fileID: 4729391575483340071}
+--- !u!114 &-8180660210386434089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953858070895924410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5d2f5d6f70f1549924ae6a955101f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doNhayChuot: 50
+  camTransform: {fileID: 2959066580792705175}
+  headTransform: {fileID: 1868883867601269352}
 --- !u!1 &2079752079762265894
 GameObject:
   m_ObjectHideFlags: 0
