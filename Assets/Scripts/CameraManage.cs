@@ -5,11 +5,7 @@ public class CameraSwitch : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera; // Camera vật lý
     [SerializeField][System.Obsolete] private CinemachineVirtualCamera thirdPersonCam; // Virtual camera
-    public Transform transformPlayer;
-    public void CameraFollow(Transform Player)
-    {
-        transformPlayer = Player;
-    }
+    
     [System.Obsolete]
     void Start()
     {
@@ -19,14 +15,13 @@ public class CameraSwitch : MonoBehaviour
     }
 
     [System.Obsolete]
-    void Update()
+    public void Update ()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
             bool isMainActive = mainCamera.gameObject.activeSelf;
 
-            thirdPersonCam.Follow = transformPlayer;
-            thirdPersonCam.LookAt = transformPlayer;
+            
             thirdPersonCam.gameObject.SetActive(isMainActive);
         }
     }
