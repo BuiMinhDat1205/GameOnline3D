@@ -12,7 +12,7 @@ public class PlayerMouse : NetworkBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public override void FixedUpdateNetwork()
