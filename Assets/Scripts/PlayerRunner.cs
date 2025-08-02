@@ -17,9 +17,9 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
 
     private void Start()
     {
-        chooserMode.SetActive(true);
         startGame.SetActive(false);
     }
+    
     public void PlayerJoined(PlayerRef player)
     {
         Debug.Log("Spawn Player");
@@ -39,9 +39,10 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                     {
                         playerSetup.SetUpCamera(); // Gắn camera follow player
                     }
-                                          
+
                 });
-  
+                chooserMode.SetActive(false);
+
 
         }
     }

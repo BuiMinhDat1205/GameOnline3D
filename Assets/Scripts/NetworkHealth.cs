@@ -54,7 +54,14 @@ public class NetworkHealth : NetworkBehaviour
     {   
         return Health;
     }
-
+    public void OnConrollerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("Bullet"))
+        {
+            TruHealth(10);
+            Debug.Log("Va cham");
+        }
+    }
 
 
 
