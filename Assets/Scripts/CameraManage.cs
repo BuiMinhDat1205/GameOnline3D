@@ -1,11 +1,12 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using Fusion;
 
-public class CameraSwitch : MonoBehaviour
+public class CameraSwitch : NetworkBehaviour
 {
     [SerializeField] private Camera mainCamera; // Camera vật lý
     [SerializeField][System.Obsolete] private CinemachineVirtualCamera thirdPersonCam; // Virtual camera
-    
+
     [System.Obsolete]
     void Start()
     {
@@ -15,14 +16,10 @@ public class CameraSwitch : MonoBehaviour
     }
 
     [System.Obsolete]
-    public void Update ()
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            bool isMainActive = mainCamera.gameObject.activeSelf;
-
-            
-            thirdPersonCam.gameObject.SetActive(isMainActive);
-        }
+    public override void Spawned()
+    { 
+            thirdPersonCam.gameObject.SetActive(true);
+        
     }
+    
 }
