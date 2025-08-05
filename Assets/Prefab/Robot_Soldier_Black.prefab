@@ -151,7 +151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199275535297845227}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.18, y: 1.35, z: 1.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2304,7 +2304,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2324,13 +2324,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f12b9cdc8856cc4db2514902cd843df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTagert: []
-  navMeshAgent: {fileID: 8741071904622906660}
-  npcAnimator: {fileID: 9078576871630358676}
-  npcOldTransform: {x: 0, y: 0, z: 0}
-  fireAttackTransform: {fileID: 6636021416073978293}
-  fireAttackGameObject: {fileID: 8585542772986347399, guid: f1c24dc36b65de24ab16093f518a7397, type: 3}
-  distanceToPlayer: 20
+  agent: {fileID: 8741071904622906660}
+  firePoint: {fileID: 6636021416073978293}
+  firePrefab: {fileID: 8585542772986347399, guid: f1c24dc36b65de24ab16093f518a7397, type: 3}
+  fireCooldown: 1
+  chaseDistance: 30
+  attackDistance: 20
 --- !u!114 &522290340534426120
 MonoBehaviour:
   m_ObjectHideFlags: 0

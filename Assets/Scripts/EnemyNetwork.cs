@@ -1,109 +1,104 @@
 ﻿using System.Collections;
-using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
+using Fusion;
 
 public class EnemyNetwork : NetworkBehaviour
 {
-    [Header("Player Tagert")]
-    public GameObject[] playerTagert;
+    [Header("Target Player")]
+    private GameObject[] players;
+
     [Header("NavMesh Agent")]
-    public NavMeshAgent navMeshAgent;
-    [Header("Enemy Animator")]
-    public Animator npcAnimator;
-    [Header("Enemy Old Transform")]
-    public Vector3 npcOldTransform;
-    [Header("Transform Fire Attack")]
-    public Transform fireAttackTransform;
-    [Header("GameOject Fire Attack")]
-    public GameObject fireAttackGameObject;
-    [Header("Attack Event")]
-    private float fireCooldown = 1f; // thời gian giữa các phát bắn (giây)
-    private float fireTime = 0f;
-    public float distanceToPlayer = 20f;
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RpcSetAnimatorRunNPC(float i)
-    {
-        npcAnimator.SetFloat("NPCRun", i);
-        Debug.Log("Set Animator Run NPC");
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RpcSetAnimatorAttackNPC()
-    {
-        npcAnimator.SetTrigger("FireAttack");
-       
-        NetworkObject fire = Runner.Spawn(fireAttackGameObject, fireAttackTransform.position, Quaternion.identity);
-        Rigidbody rigidbody = fire.GetComponent<Rigidbody>();
-        if (rigidbody != null)
-        {
-            rigidbody.AddForce(fireAttackTransform.forward * 20f, ForceMode.Impulse);
-        }
-        StartCoroutine(DestroyFireBall(fire));
-        Debug.Log("Set Animator Attack Enemy"); }
-      
+    public NavMeshAgent agent;
+
+    [Header("Fire Settings")]
+    public Transform firePoint;
+    public GameObject firePrefab;
+    public float fireCooldown = 1f;
+    private float fireTimer = 0f;
+
+    [Header("Distance Settings")]
+    public float chaseDistance = 20f;
+    public float attackDistance = 8f;
+    private Vector3 startPosition;
+
     private void Start()
     {
-        npcOldTransform = transform.position;
+        startPosition = transform.position;
     }
+
     public override void FixedUpdateNetwork()
     {
-        playerTagert = GameObject.FindGameObjectsWithTag("Player");
+        // Tìm tất cả player
+        players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length == 0) return;
 
+        // Tìm player gần nhất
+        GameObject closest = null;
+        float closestDist = Mathf.Infinity;
 
-
-        // Chỉ thực hiện logic nếu có quyền sở hữu trạng thái
-        for (int i = 0; i < playerTagert.Length; i++)
+        foreach (var p in players)
         {
-            if (playerTagert[i] != null)
+            float dist = Vector3.Distance(p.transform.position, transform.position);
+            if (dist < closestDist)
             {
-                if (Vector3.Distance(playerTagert[i].transform.position, transform.position) <= distanceToPlayer)
-                {
-                    navMeshAgent.speed = 6f;
-                    npcAnimator.speed = 1.2f;
-                    navMeshAgent.SetDestination(playerTagert[i].transform.position);
-                    RpcSetAnimatorRunNPC(navMeshAgent.velocity.magnitude);
-                    //  Debug.Log("NPC dang di chuyển đến người chơi: " + playerTagert[i].name);
-                    if (Vector3.Distance(playerTagert[i].transform.position, transform.position) <= 10f)
-                    {
-                        navMeshAgent.speed = 0f;
-                        RpcSetAnimatorRunNPC(0f);
-                        //  Debug.Log("NPC đã đến gần người chơi: " + playerTagert[i].name);
-                        fireTime += Runner.DeltaTime;
-                        if (fireTime >= fireCooldown)
-                        {
-                            Vector3 direction = (playerTagert[i].transform.position - transform.position).normalized;
-                            fireAttackTransform.rotation = Quaternion.LookRotation(direction);
-                            transform.rotation = Quaternion.LookRotation(direction);
-                            RpcSetAnimatorAttackNPC();
-                            fireTime = 0f; // Reset thời gian sau khi bắn
-                        }
-
-
-                    }
-
-
-                }
-                else
-                {
-
-                    navMeshAgent.speed = 2f;
-                    npcAnimator.speed = 1f;
-                    navMeshAgent.SetDestination(npcOldTransform);
-                    RpcSetAnimatorRunNPC(navMeshAgent.velocity.magnitude);
-                    //Debug.Log("NPC dang di chuyen ve vi tri cu: " + npcOldTransform);
-                }
-
+                closest = p;
+                closestDist = dist;
             }
+        }
+
+        if (closest != null && closestDist <= chaseDistance)
+        {
+            Vector3 targetPos = closest.transform.position;
+
+            if (closestDist > attackDistance)
+            {
+                // Enemy đuổi theo
+                agent.isStopped = false;
+                agent.SetDestination(targetPos);
+            }
+            else
+            {
+                // Enemy đứng lại bắn
+                agent.isStopped = true;
+
+                fireTimer += Runner.DeltaTime;
+                if (fireTimer >= fireCooldown)
+                {
+                    // Quay mặt về phía player
+                    Vector3 dir = (targetPos - transform.position).normalized;
+                    transform.rotation = Quaternion.LookRotation(dir);
+                    firePoint.rotation = Quaternion.LookRotation(dir);
+
+                    RpcFire();
+                    fireTimer = 0f;
+                }
+            }
+        }
+        else
+        {
+            // Không thấy player, quay về vị trí ban đầu
+            agent.isStopped = false;
+            agent.SetDestination(startPosition);
         }
     }
 
-    public IEnumerator DestroyFireBall(NetworkObject b)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RpcFire()
     {
-        yield return new WaitForSeconds(2f);
-        Runner.Despawn(b);
+        NetworkObject bullet = Runner.Spawn(firePrefab, firePoint.position, firePoint.rotation);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(firePoint.forward * 20f, ForceMode.Impulse);
+        }
+
+        StartCoroutine(DestroyAfterSeconds(bullet, 2f));
     }
-    public void SetDistancePlayer(float i)
+
+    private IEnumerator DestroyAfterSeconds(NetworkObject obj, float seconds)
     {
-        distanceToPlayer = i;
+        yield return new WaitForSeconds(seconds);
+        Runner.Despawn(obj);
     }
 }
