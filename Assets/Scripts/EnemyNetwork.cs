@@ -90,15 +90,20 @@ public class EnemyNetwork : NetworkBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            // Tính hướng từ firePoint đến player
             GameObject targetPlayer = FindClosestPlayer();
             if (targetPlayer != null)
             {
                 Vector3 direction = (targetPlayer.transform.position - firePoint.position).normalized;
-                rb.useGravity = false; // nếu muốn đạn bay thẳng
+
+                rb.useGravity = false;
                 rb.AddForce(direction * 20f, ForceMode.Impulse);
+                // Xoay về hướng bay + sửa lệch trục nếu model ngửa đầu
+                Quaternion lookRot = Quaternion.LookRotation(direction);
+                Quaternion correction = Quaternion.Euler(90, 0, 0); // thử thay đổi giá trị này
+                rb.transform.rotation = lookRot * correction;
             }
         }
+
 
         StartCoroutine(DestroyAfterSeconds(bullet, 2f));
     }

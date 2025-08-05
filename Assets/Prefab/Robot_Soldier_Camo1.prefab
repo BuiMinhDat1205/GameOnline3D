@@ -496,8 +496,8 @@ MonoBehaviour:
   firePoint: {fileID: 1795586291914766989}
   firePrefab: {fileID: 8585542772986347399, guid: f1c24dc36b65de24ab16093f518a7397, type: 3}
   fireCooldown: 1
-  chaseDistance: 20
-  attackDistance: 8
+  chaseDistance: 50
+  attackDistance: 25
 --- !u!195 &1049505493869989335
 NavMeshAgent:
   m_ObjectHideFlags: 0
