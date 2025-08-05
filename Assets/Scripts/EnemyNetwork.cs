@@ -90,12 +90,36 @@ public class EnemyNetwork : NetworkBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            Vector3 dir = (players[0].transform.position - firePoint.position).normalized;
-            rb.AddForce(dir * 20f, ForceMode.Impulse);
-
+            // Tính hướng từ firePoint đến player
+            GameObject targetPlayer = FindClosestPlayer();
+            if (targetPlayer != null)
+            {
+                Vector3 direction = (targetPlayer.transform.position - firePoint.position).normalized;
+                rb.useGravity = false; // nếu muốn đạn bay thẳng
+                rb.AddForce(direction * 20f, ForceMode.Impulse);
+            }
         }
 
         StartCoroutine(DestroyAfterSeconds(bullet, 2f));
+    }
+
+    private GameObject FindClosestPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closest = null;
+        float closestDist = Mathf.Infinity;
+
+        foreach (var p in players)
+        {
+            float dist = Vector3.Distance(p.transform.position, transform.position);
+            if (dist < closestDist)
+            {
+                closest = p;
+                closestDist = dist;
+            }
+        }
+
+        return closest;
     }
 
     private IEnumerator DestroyAfterSeconds(NetworkObject obj, float seconds)
