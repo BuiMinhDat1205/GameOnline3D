@@ -90,7 +90,9 @@ public class EnemyNetwork : NetworkBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(firePoint.forward * 20f, ForceMode.Impulse);
+            Vector3 dir = (players[0].transform.position - firePoint.position).normalized;
+            rb.AddForce(dir * 20f, ForceMode.Impulse);
+
         }
 
         StartCoroutine(DestroyAfterSeconds(bullet, 2f));

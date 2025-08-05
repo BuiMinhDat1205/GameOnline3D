@@ -1859,7 +1859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94bcb2683feef040bf4c31e434cc507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSpeed: 5
+  PlayerSpeed: 10
   JumpForce: 7
   GravityValue: -9.81
 --- !u!114 &8857117773665943997
@@ -1874,7 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5d2f5d6f70f1549924ae6a955101f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doNhayChuot: 50
+  doNhayChuot: 200
   camTransform: {fileID: 0}
   headTransform: {fileID: 0}
 --- !u!114 &5707834331515251269
