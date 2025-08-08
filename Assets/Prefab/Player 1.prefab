@@ -3132,6 +3132,7 @@ MonoBehaviour:
   bulletPrefabs:
     RawGuidValue: f1c24dc36b65de24ab16093f518a7397
   firePoint: {fileID: 8221272059999170027}
+  anim: {fileID: 3202640430478966138}
 --- !u!114 &271718253306060057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3148,7 +3149,7 @@ MonoBehaviour:
   healthNetwork: {fileID: 5660046373559349455}
   healthSlider: {fileID: 5903533406285939363}
   healthLocal: {fileID: 5960705191005271804}
-  healthSiderLocal: {fileID: 1742395550783696428}
+  healthSliderLocal: {fileID: 1742395550783696428}
 --- !u!114 &3826113966543943330
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -331,7 +331,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -993,6 +993,7 @@ MonoBehaviour:
   bulletPrefabs:
     RawGuidValue: f1c24dc36b65de24ab16093f518a7397
   firePoint: {fileID: 7071044678842372528}
+  anim: {fileID: 670277814743819848}
 --- !u!114 &4401191945580837921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1010,7 @@ MonoBehaviour:
   healthNetwork: {fileID: 3331883326820403953}
   healthSlider: {fileID: 3983265568012164322}
   healthLocal: {fileID: 1933288345147737616}
-  healthSiderLocal: {fileID: 4729391575483340071}
+  healthSliderLocal: {fileID: 4729391575483340071}
 --- !u!114 &-8180660210386434089
 MonoBehaviour:
   m_ObjectHideFlags: 0
