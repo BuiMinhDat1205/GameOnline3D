@@ -3149,7 +3149,7 @@ MonoBehaviour:
   healthNetwork: {fileID: 5660046373559349455}
   healthSlider: {fileID: 5903533406285939363}
   healthLocal: {fileID: 5960705191005271804}
-  healthSliderLocal: {fileID: 1742395550783696428}
+  healthSiderLocal: {fileID: 1742395550783696428}
 --- !u!114 &3826113966543943330
 MonoBehaviour:
   m_ObjectHideFlags: 0
