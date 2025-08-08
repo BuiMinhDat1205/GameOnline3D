@@ -1,5 +1,6 @@
-﻿using Fusion;
+﻿﻿using Fusion;
 using UnityEngine;
+using UnityEngine.UI; // Để dùng Slider
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -7,22 +8,54 @@ public class PlayerMovement : NetworkBehaviour
     private bool _jumpPressed;
 
     private CharacterController _controller;
+    private Animator _anim; // Animator
 
-    public float PlayerSpeed = 2f;
+    [Header("Movement")]
+    public float walkSpeed = 2f;
+    public float runSpeed = 4f;
+    private float currentSpeed;
 
+    [Header("Jump")]
     public float JumpForce = 5f;
     public float GravityValue = -9.81f;
+
+    [Header("Mana Settings")]
+    [Networked] public float mana { get; set; }
+    public float maxMana = 100f;
+    public float manaDrainRate = 20f;   // giảm mana/giây khi chạy
+    public float manaRegenRate = 10f;   // hồi mana/giây khi không chạy
+    public Slider manaSlider;           // Thanh mana UI
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
+        _anim = GetComponentInChildren<Animator>(); // lấy Animator từ con (nếu có)
+    }
+
+    public override void Spawned()
+    {
+        mana = maxMana;
+
+        // Ẩn thanh mana của player khác
+        if (!Object.HasInputAuthority && manaSlider != null)
+            manaSlider.gameObject.SetActive(false);
     }
 
     void Update()
     {
+        if (!Object.HasInputAuthority) return;
+
         if (Input.GetButtonDown("Jump"))
         {
             _jumpPressed = true;
+        }
+
+        // Hiển thị thanh mana theo phần trăm
+        if (manaSlider != null)
+        {
+            manaSlider.minValue = 0;
+            manaSlider.maxValue = 1; // dùng tỉ lệ
+            manaSlider.value = mana / maxMana;
         }
     }
 
@@ -39,21 +72,52 @@ public class PlayerMovement : NetworkBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        // Di chuyển theo local space (hướng của nhân vật)
-        Vector3 move = (transform.right * h + transform.forward * v).normalized * PlayerSpeed * Runner.DeltaTime;
+        bool isMoving = (h != 0 || v != 0);
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && mana > 0 && isMoving;
+
+        // Tốc độ chạy hoặc đi bộ
+        currentSpeed = isRunning ? runSpeed : walkSpeed;
+
+        // Di chuyển
+        Vector3 move = (transform.right * h + transform.forward * v).normalized * currentSpeed * Runner.DeltaTime;
 
         // Gravity + Jump
         _velocity.y += GravityValue * Runner.DeltaTime;
         if (_jumpPressed && _controller.isGrounded)
         {
             _velocity.y += JumpForce;
+            if (_anim != null)
+                _anim.SetBool("IsJumping", true);
         }
 
-        // Thực hiện di chuyển
         _controller.Move(move + _velocity * Runner.DeltaTime);
 
-        // Không thay đổi hướng nhân vật
-        // Nếu muốn xoay theo trục Y bằng input, có thể thêm đoạn xoay bên ngoài
+        // Mana giảm khi chạy, hồi khi không chạy
+        if (isRunning)
+        {
+            mana -= manaDrainRate * Runner.DeltaTime;
+            if (mana < 0) mana = 0;
+        }
+        else
+        {
+            mana += manaRegenRate * Runner.DeltaTime;
+            if (mana > maxMana) mana = maxMana;
+        }
+
+        // Cập nhật animation
+        if (_anim != null)
+        {
+            // Tính tốc độ thực tế (bỏ Runner.DeltaTime để ra giá trị đúng)
+            // Tính tốc độ theo tỉ lệ 0 → 1
+float moveAmount = new Vector3(h, 0, v).magnitude; // 0 -> 1
+float speedValue = isRunning ? moveAmount : moveAmount * 0.5f;
+_anim.SetFloat("Speed", speedValue, 0.1f, Time.deltaTime); // 0.1f để blend mượt
+
+
+            // Reset IsJumping khi chạm đất
+            if (_controller.isGrounded && !_jumpPressed)
+                _anim.SetBool("IsJumping", false);
+        }
 
         _jumpPressed = false;
     }
