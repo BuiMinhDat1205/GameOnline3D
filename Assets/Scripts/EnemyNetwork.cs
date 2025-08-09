@@ -24,8 +24,21 @@ public class EnemyNetwork : NetworkBehaviour
 
     private void Start()
     {
-        startPosition = transform.position;
+        if (agent != null)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(agent.transform.position, out hit, 2f, NavMesh.AllAreas))
+            {
+                agent.Warp(hit.position); // Đặt lại vị trí agent vào NavMesh
+                startPosition = hit.position; // Lưu lại vị trí ban đầu trên NavMesh
+            }
+            else
+            {
+                Debug.LogWarning("Enemy spawn ngoài NavMesh và không tìm được vị trí hợp lệ!");
+            }
+        }
     }
+
 
     public override void FixedUpdateNetwork()
     {

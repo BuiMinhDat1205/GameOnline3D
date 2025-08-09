@@ -28,24 +28,32 @@ public class BulletScript : NetworkBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-{
-    if (!Object.HasStateAuthority) return;
-
-    // Nếu va vào chính player đã bắn thì bỏ qua
-    NetworkObject netObj = other.GetComponent<NetworkObject>();
-    if (netObj != null && netObj.InputAuthority == Owner)
     {
-        return;
+        if (!Object.HasStateAuthority) return;
+
+        // Nếu va vào chính player đã bắn thì bỏ qua
+        NetworkObject netObj = other.GetComponent<NetworkObject>();
+        if (netObj != null && netObj.InputAuthority == Owner)
+        {
+            return;
+        }
+
+        // Gây sát thương cho player
+        NetworkHealth playerHealth = other.GetComponent<NetworkHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.TruHealth(10); // Gây 10 damage
+        }
+
+        // Gây sát thương cho enemy
+        NetworkHealthEnemy enemyHealth = other.GetComponent<NetworkHealthEnemy>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.RPC_TakeDamage(10); // Gây 10 damage
+        }
+
+        // Hủy viên đạn
+        Runner.Despawn(Object);
     }
 
-    // Gây sát thương nếu đối tượng có NetworkHealth
-    NetworkHealth health = other.GetComponent<NetworkHealth>();
-    if (health != null)
-    {
-        health.TruHealth(10); // Gây 10 damage
-    }
-
-    // Hủy viên đạn
-    Runner.Despawn(Object);
-}
 }
