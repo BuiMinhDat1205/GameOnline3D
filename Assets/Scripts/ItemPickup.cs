@@ -5,7 +5,6 @@ public enum ItemType
 {
     Health,
     Shield,
-    Ammo
 }
 
 public class ItemPickup : NetworkBehaviour
@@ -31,6 +30,7 @@ public class ItemPickup : NetworkBehaviour
             case ItemType.Shield:
                 playerHealth.AddShield(amount);
                 break;
+
         }
 
         // Hủy item sau khi nhặt
