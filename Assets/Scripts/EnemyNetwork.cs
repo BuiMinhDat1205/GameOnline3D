@@ -25,6 +25,14 @@ public class EnemyNetwork : NetworkBehaviour
     [Header("Animation")]
     public Animator animator; // Animator với Blend Tree (Speed) và bool IsShooting
 
+    [Header("Dodge Movement")]
+    public float dodgeDistance = 3f;         // Khoảng cách né
+    public float dodgeChangeInterval = 1f;  // Thay đổi vị trí né sau từng giây
+
+    private Vector3 dodgeTarget;
+    private float dodgeTimer = 0f;
+    private bool dodgeRight = true;
+
     private void Start()
     {
         if (agent != null)
@@ -66,18 +74,30 @@ public class EnemyNetwork : NetworkBehaviour
         {
             if (dist > attackDistance)
             {
+                // Chase player
                 if (agent.isStopped) agent.isStopped = false;
                 agent.SetDestination(closest.transform.position);
                 UpdateAnimator(agent.velocity.magnitude, false);
             }
             else
             {
-                if (!agent.isStopped) agent.isStopped = true;
-                agent.ResetPath();
+                // Attack + dodge movement
+                dodgeTimer += Runner.DeltaTime;
+
+                if (dodgeTimer >= dodgeChangeInterval)
+                {
+                    dodgeRight = !dodgeRight; // đổi hướng né
+                    dodgeTarget = CalculateDodgePosition(closest.transform.position, dodgeRight);
+                    dodgeTimer = 0f;
+                }
+
+                if (!agent.isStopped) agent.isStopped = false;
+                agent.SetDestination(dodgeTarget);
 
                 transform.LookAt(new Vector3(closest.transform.position.x, transform.position.y, closest.transform.position.z));
-                UpdateAnimator(0f, true);
+                UpdateAnimator(agent.velocity.magnitude, true);
 
+                // Fire logic
                 fireTimer += Runner.DeltaTime;
                 if (fireTimer >= fireCooldown)
                 {
@@ -124,6 +144,27 @@ public class EnemyNetwork : NetworkBehaviour
         }
 
         return closest;
+    }
+
+    private Vector3 CalculateDodgePosition(Vector3 playerPos, bool toRight)
+    {
+        // Hướng từ enemy đến player
+        Vector3 dirToPlayer = (playerPos - transform.position).normalized;
+
+        // Hướng vuông góc sang phải hoặc trái
+        Vector3 dodgeDir = toRight ? Vector3.Cross(Vector3.up, dirToPlayer) : Vector3.Cross(dirToPlayer, Vector3.up);
+
+        Vector3 dodgePos = transform.position + dodgeDir * dodgeDistance;
+
+        // Giữ y trên mặt đất NavMesh
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(dodgePos, out hit, dodgeDistance, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        // Nếu không tìm được vị trí hợp lệ thì trả về vị trí hiện tại
+        return transform.position;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
