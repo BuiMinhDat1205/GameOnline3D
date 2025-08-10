@@ -1,10 +1,7 @@
 fileFormatVersion: 2
 guid: bc34a1e996e115c42933d40ac1182384
-PrefabImporter:
-  externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+labels:
+- FusionPrefab
 AssetOrigin:
   serializedVersion: 1
   productId: 212079
@@ -12,3 +9,8 @@ AssetOrigin:
   packageVersion: 1.1
   assetPath: Assets/Low Poly Powerups/2 URP/Prefabs/Speed.prefab
   uploadId: 480516
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -28,6 +28,11 @@ public class PlayerMovement : NetworkBehaviour
     public float manaRegenRate = 10f;   // hồi mana/giây khi không chạy
     public Slider manaSlider;           // Thanh mana UI
 
+    // --- Thêm biến quản lý trạng thái không giảm mana ---
+    private bool isManaProtected = false;
+    private float manaProtectTimer = 0f;
+    private float manaProtectDuration = 10f;
+
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -71,6 +76,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!Object.HasInputAuthority) return;
 
+        // --- Quản lý thời gian trạng thái không giảm mana ---
+        if (isManaProtected)
+        {
+            manaProtectTimer += Runner.DeltaTime;
+            if (manaProtectTimer >= manaProtectDuration)
+            {
+                isManaProtected = false;
+                manaProtectTimer = 0f;
+            }
+        }
+
         if (_controller.isGrounded)
         {
             _velocity = new Vector3(0, -1, 0);
@@ -103,11 +119,14 @@ public class PlayerMovement : NetworkBehaviour
 
         _controller.Move(move + _velocity * Runner.DeltaTime);
 
-        // Mana
+        // --- Mana ---
         if (isRunning)
         {
-            mana -= manaDrainRate * Runner.DeltaTime;
-            if (mana < 0) mana = 0;
+            if (!isManaProtected) // Chỉ giảm mana khi không có trạng thái bảo vệ
+            {
+                mana -= manaDrainRate * Runner.DeltaTime;
+                if (mana < 0) mana = 0;
+            }
         }
         else
         {
@@ -129,4 +148,19 @@ public class PlayerMovement : NetworkBehaviour
 
         _jumpPressed = false;
     }
+
+    // Hàm public để kích hoạt trạng thái không giảm mana 10 giây
+    public void ActivateManaProtection()
+    {
+        isManaProtected = true;
+        manaProtectTimer = 0f;
+    }
+    // Add this method to the PlayerMovement class
+    public void AddMana(float amount)
+    {
+        mana += amount;
+        if (mana > maxMana)
+            mana = maxMana;
+    }
 }
+

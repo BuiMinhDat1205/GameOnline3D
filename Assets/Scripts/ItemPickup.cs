@@ -5,6 +5,7 @@ public enum ItemType
 {
     Health,
     Shield,
+    Mana,
 }
 
 public class ItemPickup : NetworkBehaviour
@@ -13,13 +14,10 @@ public class ItemPickup : NetworkBehaviour
     public ItemType itemType;
     public float amount = 20f;
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        // Use other.gameObject to access components on the collided object
         var playerHealth = other.gameObject.GetComponent<NetworkHealth>();
         if (playerHealth == null) return;
-
-        // Chỉ StateAuthority mới xử lý logic
         if (!playerHealth.Object.HasStateAuthority) return;
 
         switch (itemType)
@@ -27,13 +25,29 @@ public class ItemPickup : NetworkBehaviour
             case ItemType.Health:
                 playerHealth.AddHealth(amount);
                 break;
+
             case ItemType.Shield:
                 playerHealth.AddShield(amount);
                 break;
 
+            case ItemType.Mana:
+                var playerMove = other.gameObject.GetComponent<PlayerMovement>();
+                if (playerMove != null)
+                {
+                    playerMove.AddMana(amount);           // Cần có hàm AddMana trong PlayerMovement (mình sẽ nói bên dưới)
+                    playerMove.ActivateManaProtection(); // Kích hoạt trạng thái không giảm mana
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerMovement component not found for Mana pickup.");
+                }
+                break;
+            default:
+                Debug.LogWarning($"Unknown item type: {itemType}");
+                break;
+
         }
 
-        // Hủy item sau khi nhặt
         Runner.Despawn(Object);
     }
 }

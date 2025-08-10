@@ -7,6 +7,7 @@ TagManager:
   - HealthItem
   - ShieldItem
   - Bullet
+  - ManaItem
   layers:
   - Default
   - TransparentFX

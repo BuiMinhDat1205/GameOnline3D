@@ -89,17 +89,16 @@ public class NetworkHealthEnemy : NetworkBehaviour
     {
         foreach (var item in dropItems)
         {
-            if (item.prefab != null)
+            if (item.prefab != null && Random.value <= item.dropChance)
             {
-                Debug.Log($"Spawn item {item.prefab.name} với xác suất {item.dropChance}");
-                if (Random.value <= item.dropChance)
+                Vector3 spawnPos = transform.position + Vector3.up * 5f;
+                RaycastHit hit;
+                if (Physics.Raycast(spawnPos, Vector3.down, out hit, 10f))
                 {
-                    var spawned = Runner.Spawn(item.prefab, transform.position + Vector3.up * 1f, Quaternion.identity);
-                    if (spawned == null)
-                        Debug.LogWarning($"Không spawn được item {item.prefab.name}. Kiểm tra NetworkObject trên prefab!");
+                    spawnPos = hit.point + Vector3.up * 0.5f;
                 }
+                Runner.Spawn(item.prefab, spawnPos, Quaternion.identity);
             }
         }
     }
-
 }
