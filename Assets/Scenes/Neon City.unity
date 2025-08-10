@@ -10933,7 +10933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1293312630}
-  thirdPersonCam: {fileID: 144202593}
+  thirdPersonCam: {fileID: 144202590}
 --- !u!4 &1568495945
 Transform:
   m_ObjectHideFlags: 0

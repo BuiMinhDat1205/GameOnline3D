@@ -19,7 +19,7 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
     {
         startGame.SetActive(false);
     }
-    
+
     public void PlayerJoined(PlayerRef player)
     {
         Debug.Log("Spawn Player");
@@ -39,25 +39,21 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                     {
                         playerSetup.SetUpCamera(); // Gắn camera follow player
                     }
-
                 });
-                chooserMode.SetActive(false);
 
-
+            chooserMode.SetActive(false);
         }
     }
 
     public void ChooseHuman()
     {
         chooseChatacter = 0;
-        //Destroy(chooserMode);
         chooserMode.SetActive(false);
         startGame.SetActive(true);
     }
     public void ChooseHulk()
     {
         chooseChatacter = 1;
-        //Destroy(chooserMode);
         chooserMode.SetActive(false);
         startGame.SetActive(true);
     }
