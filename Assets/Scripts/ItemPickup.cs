@@ -14,10 +14,10 @@ public class ItemPickup : NetworkBehaviour
     public ItemType itemType;
     public float amount = 20f;
 
-    private void OnCollisionEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        // Kiểm tra player
-        var playerHealth = other.GetComponent<NetworkHealth>();
+        // Use other.gameObject to access components on the collided object
+        var playerHealth = other.gameObject.GetComponent<NetworkHealth>();
         if (playerHealth == null) return;
 
         // Chỉ StateAuthority mới xử lý logic

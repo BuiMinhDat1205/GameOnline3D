@@ -962,6 +962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 5
   runSpeed: 8
+  crouchSpeed: 1
   JumpForce: 7
   GravityValue: -9.81
   _mana: 100

@@ -1,4 +1,4 @@
-﻿﻿using Fusion;
+﻿using Fusion;
 using UnityEngine;
 using UnityEngine.UI; // Để dùng Slider
 
@@ -6,6 +6,7 @@ public class PlayerMovement : NetworkBehaviour
 {
     private Vector3 _velocity;
     private bool _jumpPressed;
+    private bool _isCrouching; // Thêm biến ngồi
 
     private CharacterController _controller;
     private Animator _anim; // Animator
@@ -13,6 +14,7 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Movement")]
     public float walkSpeed = 2f;
     public float runSpeed = 4f;
+    public float crouchSpeed = 1f; // Tốc độ khi ngồi
     private float currentSpeed;
 
     [Header("Jump")]
@@ -50,6 +52,12 @@ public class PlayerMovement : NetworkBehaviour
             _jumpPressed = true;
         }
 
+        // Bật/tắt crouch khi bấm Ctrl
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            _isCrouching = !_isCrouching;
+        }
+
         // Hiển thị thanh mana theo phần trăm
         if (manaSlider != null)
         {
@@ -73,17 +81,20 @@ public class PlayerMovement : NetworkBehaviour
         float v = Input.GetAxis("Vertical");
 
         bool isMoving = (h != 0 || v != 0);
-        bool isRunning = Input.GetKey(KeyCode.LeftShift) && mana > 0 && isMoving;
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && mana > 0 && isMoving && !_isCrouching;
 
-        // Tốc độ chạy hoặc đi bộ
-        currentSpeed = isRunning ? runSpeed : walkSpeed;
+        // Tốc độ di chuyển
+        if (_isCrouching)
+            currentSpeed = crouchSpeed;
+        else
+            currentSpeed = isRunning ? runSpeed : walkSpeed;
 
         // Di chuyển
         Vector3 move = (transform.right * h + transform.forward * v).normalized * currentSpeed * Runner.DeltaTime;
 
         // Gravity + Jump
         _velocity.y += GravityValue * Runner.DeltaTime;
-        if (_jumpPressed && _controller.isGrounded)
+        if (_jumpPressed && _controller.isGrounded && !_isCrouching) // Không nhảy khi đang ngồi
         {
             _velocity.y += JumpForce;
             if (_anim != null)
@@ -92,7 +103,7 @@ public class PlayerMovement : NetworkBehaviour
 
         _controller.Move(move + _velocity * Runner.DeltaTime);
 
-        // Mana giảm khi chạy, hồi khi không chạy
+        // Mana
         if (isRunning)
         {
             mana -= manaDrainRate * Runner.DeltaTime;
@@ -104,17 +115,14 @@ public class PlayerMovement : NetworkBehaviour
             if (mana > maxMana) mana = maxMana;
         }
 
-        // Cập nhật animation
+        // Animation
         if (_anim != null)
         {
-            // Tính tốc độ thực tế (bỏ Runner.DeltaTime để ra giá trị đúng)
-            // Tính tốc độ theo tỉ lệ 0 → 1
-float moveAmount = new Vector3(h, 0, v).magnitude; // 0 -> 1
-float speedValue = isRunning ? moveAmount : moveAmount * 0.5f;
-_anim.SetFloat("Speed", speedValue, 0.1f, Time.deltaTime); // 0.1f để blend mượt
+            float moveAmount = new Vector3(h, 0, v).magnitude; // 0 -> 1
+            float speedValue = isRunning ? moveAmount : moveAmount * 0.5f;
+            _anim.SetFloat("Speed", speedValue, 0.1f, Time.deltaTime);
 
-
-            // Reset IsJumping khi chạm đất
+            _anim.SetBool("IsCrouching", _isCrouching); // Set crouch
             if (_controller.isGrounded && !_jumpPressed)
                 _anim.SetBool("IsJumping", false);
         }
