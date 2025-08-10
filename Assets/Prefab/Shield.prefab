@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6707837165494348173}
   - component: {fileID: 5050780578079279199}
   - component: {fileID: 5050780578079279198}
+  - component: {fileID: 1558498824109538378}
   m_Layer: 0
   m_Name: powerup shield
-  m_TagString: Untagged
+  m_TagString: ShieldItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5050780578079279192}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071067, y: 5.302452e-33, z: 5.302451e-33, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.2055068, y: -1.6196365, z: -2.0155802}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
@@ -125,12 +126,39 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.017919814, y: 0.017919812, z: 0.0058251894}
   m_Center: {x: 0.000000027008355, y: -0.00023805113, z: 0}
+--- !u!54 &1558498824109538378
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5050780578079279192}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7286119893847012234
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,8 +168,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7286119893847012233}
-  - component: {fileID: 8239746110531591650}
   - component: {fileID: 3629815020477363138}
+  - component: {fileID: 7076851807165006368}
   m_Layer: 0
   m_Name: Shield
   m_TagString: ShieldItem
@@ -165,19 +193,6 @@ Transform:
   - {fileID: 5574377169773908706}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8239746110531591650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7286119893847012234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bf632289a84dfa4a8f3c7c75b4c1b4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shieldAmount: 20
 --- !u!114 &3629815020477363138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,5 +210,19 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 8239746110531591650}
+  - {fileID: 7076851807165006368}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &7076851807165006368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7286119893847012234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965aa96b5188e55429ad3d0d01c881bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
+  amount: 20

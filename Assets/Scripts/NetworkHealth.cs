@@ -136,4 +136,9 @@ public class NetworkHealth : NetworkBehaviour
         Health = Mathf.Min(Health + amount, Health);
     }
 
+    internal void AddHealth(float value)
+    {
+        if (!Object.HasStateAuthority) return;
+        Health = Mathf.Clamp(Health + value, 0, maxHealth);
+    }
 }

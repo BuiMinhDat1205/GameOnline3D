@@ -3293,6 +3293,7 @@ GameObject:
   - component: {fileID: 4939516683538240836}
   - component: {fileID: 271718253306060057}
   - component: {fileID: 3826113966543943330}
+  - component: {fileID: 6851929162965133106}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -3395,6 +3396,7 @@ MonoBehaviour:
   - {fileID: 4939516683538240836}
   - {fileID: 271718253306060057}
   - {fileID: 3826113966543943330}
+  - {fileID: 6851929162965133106}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &5221454515746537545
 MonoBehaviour:
@@ -3501,6 +3503,21 @@ MonoBehaviour:
   doNhayChuot: 50
   camTransform: {fileID: 1422408569184871421}
   headTransform: {fileID: 5759943281588142621}
+--- !u!114 &6851929162965133106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6263809433687209152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4413bd4817d162f468be17f7725743f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 0}
+  coins: 0
+  ammoCount: 0
 --- !u!1 &6490646565717739351
 GameObject:
   m_ObjectHideFlags: 0
