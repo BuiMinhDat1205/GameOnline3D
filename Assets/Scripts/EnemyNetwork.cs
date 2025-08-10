@@ -187,8 +187,10 @@ public class EnemyNetwork : NetworkBehaviour
                 Debug.LogWarning("Không tìm thấy player để bắn!");
                 return;
             }
+            // Lấy vị trí mục tiêu là vị trí player + offset chiều cao
+            Vector3 targetPos = targetPlayer.transform.position + Vector3.up * 1.5f; // 1.5f là chiều cao bạn muốn, chỉnh cho phù hợp
 
-            Vector3 direction = (targetPlayer.transform.position - firePoint.position).normalized;
+            Vector3 direction = (targetPos - firePoint.position).normalized;
 
             rb.useGravity = false;
             rb.AddForce(direction * 20f, ForceMode.Impulse);

@@ -2734,8 +2734,6 @@ MonoBehaviour:
     dropChance: 0.708
   - prefab: {fileID: 8449068647432487215, guid: 5b60c123e23cdfc419c96d084b78a02f, type: 3}
     dropChance: 0.5
-  - prefab: {fileID: 5285892602841293987, guid: bc34a1e996e115c42933d40ac1182384, type: 3}
-    dropChance: 0.5
 --- !u!1 &6982947704812773979
 GameObject:
   m_ObjectHideFlags: 0
