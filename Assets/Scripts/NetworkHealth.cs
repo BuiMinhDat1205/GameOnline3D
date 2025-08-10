@@ -122,10 +122,18 @@ public class NetworkHealth : NetworkBehaviour
             Destroy(hit.gameObject);
             Debug.Log("Nhặt khiên");
         }
+        else if (hit.gameObject.CompareTag("HealthItem"))
+        {
+            Health = Mathf.Clamp(Health + 20, 0, maxHealth);
+            Destroy(hit.gameObject);
+            Debug.Log("Nhặt máu");
+        }
     }
 
-    internal void TruHealth(int v)
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_Heal(float amount)
     {
-        throw new NotImplementedException();
+        Health = Mathf.Min(Health + amount, Health);
     }
+
 }

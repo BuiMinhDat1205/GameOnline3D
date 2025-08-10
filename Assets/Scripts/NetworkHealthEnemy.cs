@@ -11,11 +11,21 @@ public class NetworkHealthEnemy : NetworkBehaviour
     private float MaxHealth = 100f;
 
     [Header("UI Health Bar")]
-    public Slider healthBar; // slider gắn trên enemy
-    public Transform uiCanvas;  // canvas world space trên đầu enemy
+    public Slider healthBar;
+    public Transform uiCanvas;
 
     [Header("Camera")]
     private Camera mainCam;
+
+    [System.Serializable]
+    public class DropItem
+    {
+        public GameObject prefab;
+        [Range(0f, 1f)] public float dropChance = 0.5f; // 0.5 = 50%
+    }
+
+    [Header("Item Drop Settings")]
+    public DropItem[] dropItems; // Kéo nhiều item vào đây
 
     public override void Spawned()
     {
@@ -31,17 +41,13 @@ public class NetworkHealthEnemy : NetworkBehaviour
 
     void Update()
     {
-        // Quay thanh máu về phía camera
         if (uiCanvas != null && mainCam != null)
         {
             uiCanvas.LookAt(mainCam.transform);
             uiCanvas.forward = mainCam.transform.forward;
         }
-        // ❌ Bỏ dòng reset healthBar.value = MaxHealth;
-        // Vì giá trị máu sẽ được cập nhật qua OnHealthChanged()
     }
 
-    // Gọi khi máu thay đổi
     private void OnHealthChanged()
     {
         if (healthBar != null)
@@ -50,7 +56,6 @@ public class NetworkHealthEnemy : NetworkBehaviour
         }
     }
 
-    // Hàm nhận sát thương
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_TakeDamage(float damage)
     {
@@ -67,6 +72,18 @@ public class NetworkHealthEnemy : NetworkBehaviour
     void Die()
     {
         Debug.Log("Enemy chết!");
+        DropItems();
         Runner.Despawn(Object);
+    }
+
+    void DropItems()
+    {
+        foreach (var item in dropItems)
+        {
+            if (item.prefab != null && Random.value <= item.dropChance)
+            {
+                Runner.Spawn(item.prefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            }
+        }
     }
 }

@@ -2726,6 +2726,13 @@ MonoBehaviour:
   _Health: 100
   healthBar: {fileID: 2712340625096708269}
   uiCanvas: {fileID: 0}
+  dropItems:
+  - prefab: {fileID: 7286119893847012234, guid: b0f78e6d1ef058444a7389a6d3df86f9, type: 3}
+    dropChance: 0.708
+  - prefab: {fileID: 8449068647432487215, guid: 5b60c123e23cdfc419c96d084b78a02f, type: 3}
+    dropChance: 0.5
+  - prefab: {fileID: 3650803961311379746, guid: e67ed429949d69e47a5c592feb743a56, type: 3}
+    dropChance: 0.5
 --- !u!1 &6663145184312774115
 GameObject:
   m_ObjectHideFlags: 0
