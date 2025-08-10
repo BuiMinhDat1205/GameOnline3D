@@ -5,7 +5,6 @@ public class PlayerItemCollector : NetworkBehaviour
 {
     public NetworkHealth health; // Script máu của player
     public float coins = 0;
-    public int ammoCount = 0;
 
     public void ApplyItemEffect(ItemType type, float value)
     {
@@ -21,10 +20,6 @@ public class PlayerItemCollector : NetworkBehaviour
                 Debug.Log($"+{value} Shield");
                 break;
 
-            case ItemType.Ammo:
-                ammoCount += Mathf.RoundToInt(value);
-                Debug.Log($"+{value} Ammo");
-                break;
         }
     }
 }

@@ -7,7 +7,7 @@ public class PlayerSetUp1 : NetworkBehaviour
     {
         if (Object.HasInputAuthority)
         {
-            CameraFollow1 camera = FindObjectOfType<CameraFollow1>();
+            CameraFollow1 camera = FindFirstObjectByType<CameraFollow1>();
             if (camera != null)
             {
                 camera.AssignCamera1(transform);

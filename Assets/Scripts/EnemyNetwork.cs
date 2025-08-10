@@ -25,6 +25,14 @@ public class EnemyNetwork : NetworkBehaviour
     [Header("Animation")]
     public Animator animator; // Animator với Blend Tree (Speed) và bool IsShooting
 
+    [Header("Dodge Movement")]
+    public float dodgeDistance = 3f;         // Khoảng cách né
+    public float dodgeChangeInterval = 1f;  // Thay đổi vị trí né sau từng giây
+
+    private Vector3 dodgeTarget;
+    private float dodgeTimer = 0f;
+    private bool dodgeRight = true;
+
     private void Start()
     {
         if (agent != null)
@@ -51,7 +59,7 @@ public class EnemyNetwork : NetworkBehaviour
         if (agent == null || !agent.isOnNavMesh) return;
 
         players = GameObject.FindGameObjectsWithTag("Player");
-        if (players.Length == 0)
+        if (players == null || players.Length == 0)
         {
             UpdateAnimator(0f, false);
             return;
@@ -64,23 +72,32 @@ public class EnemyNetwork : NetworkBehaviour
 
         if (dist <= chaseDistance)
         {
-            // Trong tầm đuổi nhưng ngoài tầm bắn
             if (dist > attackDistance)
             {
+                // Chase player
                 if (agent.isStopped) agent.isStopped = false;
                 agent.SetDestination(closest.transform.position);
-
                 UpdateAnimator(agent.velocity.magnitude, false);
             }
             else
             {
-                // Trong tầm bắn
-                if (!agent.isStopped) agent.isStopped = true;
-                agent.ResetPath();
+                // Attack + dodge movement
+                dodgeTimer += Runner.DeltaTime;
+
+                if (dodgeTimer >= dodgeChangeInterval)
+                {
+                    dodgeRight = !dodgeRight; // đổi hướng né
+                    dodgeTarget = CalculateDodgePosition(closest.transform.position, dodgeRight);
+                    dodgeTimer = 0f;
+                }
+
+                if (!agent.isStopped) agent.isStopped = false;
+                agent.SetDestination(dodgeTarget);
 
                 transform.LookAt(new Vector3(closest.transform.position.x, transform.position.y, closest.transform.position.z));
-                UpdateAnimator(0f, true);
+                UpdateAnimator(agent.velocity.magnitude, true);
 
+                // Fire logic
                 fireTimer += Runner.DeltaTime;
                 if (fireTimer >= fireCooldown)
                 {
@@ -91,10 +108,8 @@ public class EnemyNetwork : NetworkBehaviour
         }
         else
         {
-            // Quay về vị trí ban đầu
             if (!agent.isStopped) agent.isStopped = false;
             agent.SetDestination(startPosition);
-
             UpdateAnimator(agent.velocity.magnitude, false);
         }
     }
@@ -110,11 +125,16 @@ public class EnemyNetwork : NetworkBehaviour
 
     private GameObject FindClosestPlayer()
     {
+        if (players == null || players.Length == 0)
+            return null;
+
         GameObject closest = null;
         float closestDist = Mathf.Infinity;
 
         foreach (var p in players)
         {
+            if (p == null) continue;
+
             float dist = Vector3.Distance(p.transform.position, transform.position);
             if (dist < closestDist)
             {
@@ -126,26 +146,58 @@ public class EnemyNetwork : NetworkBehaviour
         return closest;
     }
 
+    private Vector3 CalculateDodgePosition(Vector3 playerPos, bool toRight)
+    {
+        // Hướng từ enemy đến player
+        Vector3 dirToPlayer = (playerPos - transform.position).normalized;
+
+        // Hướng vuông góc sang phải hoặc trái
+        Vector3 dodgeDir = toRight ? Vector3.Cross(Vector3.up, dirToPlayer) : Vector3.Cross(dirToPlayer, Vector3.up);
+
+        Vector3 dodgePos = transform.position + dodgeDir * dodgeDistance;
+
+        // Giữ y trên mặt đất NavMesh
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(dodgePos, out hit, dodgeDistance, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        // Nếu không tìm được vị trí hợp lệ thì trả về vị trí hiện tại
+        return transform.position;
+    }
+
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RpcFire()
     {
+        if (firePrefab == null || firePoint == null)
+        {
+            Debug.LogWarning("firePrefab hoặc firePoint chưa được gán!");
+            return;
+        }
+
         NetworkObject bullet = Runner.Spawn(firePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
             GameObject targetPlayer = FindClosestPlayer();
-            if (targetPlayer != null)
+            if (targetPlayer == null)
             {
-                Vector3 direction = (targetPlayer.transform.position - firePoint.position).normalized;
-
-                rb.useGravity = false;
-                rb.AddForce(direction * 20f, ForceMode.Impulse);
-
-                Quaternion lookRot = Quaternion.LookRotation(direction);
-                Quaternion correction = Quaternion.Euler(90, 0, 0);
-                rb.transform.rotation = lookRot * correction;
+                Debug.LogWarning("Không tìm thấy player để bắn!");
+                return;
             }
+            // Lấy vị trí mục tiêu là vị trí player + offset chiều cao
+            Vector3 targetPos = targetPlayer.transform.position + Vector3.up * 1.5f; // 1.5f là chiều cao bạn muốn, chỉnh cho phù hợp
+
+            Vector3 direction = (targetPos - firePoint.position).normalized;
+
+            rb.useGravity = false;
+            rb.AddForce(direction * 20f, ForceMode.Impulse);
+
+            Quaternion lookRot = Quaternion.LookRotation(direction);
+            Quaternion correction = Quaternion.Euler(90, 0, 0);
+            rb.transform.rotation = lookRot * correction;
         }
 
         StartCoroutine(DestroyAfterSeconds(bullet, 2f));
@@ -154,6 +206,7 @@ public class EnemyNetwork : NetworkBehaviour
     private IEnumerator DestroyAfterSeconds(NetworkObject obj, float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        Runner.Despawn(obj);
+        if (obj != null && obj.IsValid)
+            Runner.Despawn(obj);
     }
 }

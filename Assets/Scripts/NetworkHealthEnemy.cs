@@ -1,4 +1,5 @@
 ﻿using Fusion;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,6 +74,14 @@ public class NetworkHealthEnemy : NetworkBehaviour
     {
         Debug.Log("Enemy chết!");
         DropItems();
+
+        // Đợi một frame trước khi despawn enemy để spawn item kịp xử lý
+        StartCoroutine(DelayedDespawn());
+    }
+
+    private IEnumerator DelayedDespawn()
+    {
+        yield return null; // chờ 1 frame
         Runner.Despawn(Object);
     }
 
@@ -82,7 +91,13 @@ public class NetworkHealthEnemy : NetworkBehaviour
         {
             if (item.prefab != null && Random.value <= item.dropChance)
             {
-                Runner.Spawn(item.prefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+                Vector3 spawnPos = transform.position + Vector3.up * 5f;
+                RaycastHit hit;
+                if (Physics.Raycast(spawnPos, Vector3.down, out hit, 10f))
+                {
+                    spawnPos = hit.point + Vector3.up * 0.5f;
+                }
+                Runner.Spawn(item.prefab, spawnPos, Quaternion.identity);
             }
         }
     }

@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class MapCompleteTrigger : MonoBehaviour
 {
-    public GameObject pressFText; // UI chữ "Nhấn F"
+    public GameObject pressFText;
     private bool isPlayerInZone = false;
+    [SerializeField] private string completeSceneName = "Map1CompleteScene"; // cho phép đổi trong Inspector
 
     void Start()
     {
@@ -33,7 +34,12 @@ public class MapCompleteTrigger : MonoBehaviour
     {
         if (isPlayerInZone && Input.GetKeyDown(KeyCode.F))
         {
-            SceneManager.LoadScene("Map1CompleteScene"); // Tên scene chứa màn hình hoàn thành
+            CompleteMap();
         }
+    }
+
+    public void CompleteMap() // Gọi được từ UI Button
+    {
+        SceneManager.LoadScene(completeSceneName);
     }
 }
