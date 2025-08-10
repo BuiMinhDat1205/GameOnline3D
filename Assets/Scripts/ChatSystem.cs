@@ -2,8 +2,10 @@
 using Fusion;
 using TMPro;
 using UnityEngine.UI;
+
 public class ChatSystem : NetworkBehaviour
 {
+    [Header("UI References")]
     public TextMeshProUGUI textMessage;
     public TMP_InputField inputFieldMessage;
     public Button buttonSend;
@@ -11,19 +13,51 @@ public class ChatSystem : NetworkBehaviour
     public GameObject open;
     public GameObject close;
 
-    //Chạy ngay sau khi nhân vật được spawn trong network
     public override void Spawned()
     {
-        textMessage = GameObject.Find("TextMessage").GetComponent<TextMeshProUGUI>();
-        inputFieldMessage = GameObject.Find("InputFieldMessage").GetComponent<TMP_InputField>();
-        buttonSend = GameObject.Find("ButtonSend").GetComponent<Button>();
-        buttonSend.onClick.AddListener(SendMessageChat);
+        // Nếu chưa gán trên Inspector thì thử tìm bằng tên
+        if (textMessage == null)
+        {
+            var goText = GameObject.Find("TextMessage");
+            if (goText != null)
+                textMessage = goText.GetComponent<TextMeshProUGUI>();
+            else
+                Debug.LogError("[ChatSystem] Không tìm thấy TextMessage trong scene!");
+        }
+
+        if (inputFieldMessage == null)
+        {
+            var goInput = GameObject.Find("InputFieldMessage");
+            if (goInput != null)
+                inputFieldMessage = goInput.GetComponent<TMP_InputField>();
+            else
+                Debug.LogError("[ChatSystem] Không tìm thấy InputFieldMessage trong scene!");
+        }
+
+        if (buttonSend == null)
+        {
+            var goButton = GameObject.Find("ButtonSend");
+            if (goButton != null)
+                buttonSend = goButton.GetComponent<Button>();
+            else
+                Debug.LogError("[ChatSystem] Không tìm thấy ButtonSend trong scene!");
+        }
+
+        // Nếu đã có buttonSend thì gán sự kiện click
+        if (buttonSend != null)
+        {
+            buttonSend.onClick.RemoveListener(SendMessageChat);
+            buttonSend.onClick.AddListener(SendMessageChat);
+        }
     }
 
     public void SendMessageChat()
     {
+        if (inputFieldMessage == null || textMessage == null) return;
+
         var message = inputFieldMessage.text;
         if (string.IsNullOrWhiteSpace(message)) return;
+
         var id = Runner.LocalPlayer.PlayerId;
         var text = $"<b>Player {id}:</b> {message}";
         RpcChat(text);
@@ -33,18 +67,21 @@ public class ChatSystem : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RpcChat(string message)
     {
-        textMessage.text += message + "\n";
+        if (textMessage != null)
+            textMessage.text += message + "\n";
     }
+
     public void OpenChat()
     {
-        open.SetActive(false);
-        close.SetActive(true);
-        chat.SetActive(true);
+        if (open != null) open.SetActive(false);
+        if (close != null) close.SetActive(true);
+        if (chat != null) chat.SetActive(true);
     }
+
     public void CloseChat()
     {
-        open.SetActive(true);
-        close.SetActive(false);
-        chat.SetActive(false);
+        if (open != null) open.SetActive(true);
+        if (close != null) close.SetActive(false);
+        if (chat != null) chat.SetActive(false);
     }
 }

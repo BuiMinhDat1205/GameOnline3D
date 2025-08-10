@@ -27,21 +27,28 @@ public class EnemyNetwork : NetworkBehaviour
         if (agent != null)
         {
             NavMeshHit hit;
+            // Kiểm tra xem vị trí spawn có nằm trên NavMesh không
             if (NavMesh.SamplePosition(agent.transform.position, out hit, 2f, NavMesh.AllAreas))
             {
-                agent.Warp(hit.position); // Đặt lại vị trí agent vào NavMesh
-                startPosition = hit.position; // Lưu lại vị trí ban đầu trên NavMesh
+                agent.Warp(hit.position); // Đặt lại vị trí vào NavMesh
+                startPosition = hit.position;
             }
             else
             {
-                Debug.LogWarning("Enemy spawn ngoài NavMesh và không tìm được vị trí hợp lệ!");
+                Debug.LogWarning($"{name} spawn ngoài NavMesh! Tìm vị trí gần nhất không thành công.");
             }
+        }
+        else
+        {
+            Debug.LogError($"{name} không có NavMeshAgent được gán!");
         }
     }
 
-
     public override void FixedUpdateNetwork()
     {
+        // Nếu không có agent hoặc chưa ở trên NavMesh => bỏ qua
+        if (agent == null || !agent.isOnNavMesh) return;
+
         // Tìm tất cả player
         players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length == 0) return;
@@ -67,13 +74,13 @@ public class EnemyNetwork : NetworkBehaviour
             if (closestDist > attackDistance)
             {
                 // Enemy đuổi theo
-                agent.isStopped = false;
+                if (agent.isStopped) agent.isStopped = false;
                 agent.SetDestination(targetPos);
             }
             else
             {
                 // Enemy đứng lại bắn
-                agent.isStopped = true;
+                if (!agent.isStopped) agent.isStopped = true;
 
                 fireTimer += Runner.DeltaTime;
                 if (fireTimer >= fireCooldown)
@@ -91,7 +98,7 @@ public class EnemyNetwork : NetworkBehaviour
         else
         {
             // Không thấy player, quay về vị trí ban đầu
-            agent.isStopped = false;
+            if (!agent.isStopped) agent.isStopped = false;
             agent.SetDestination(startPosition);
         }
     }
@@ -110,13 +117,13 @@ public class EnemyNetwork : NetworkBehaviour
 
                 rb.useGravity = false;
                 rb.AddForce(direction * 20f, ForceMode.Impulse);
+
                 // Xoay về hướng bay + sửa lệch trục nếu model ngửa đầu
                 Quaternion lookRot = Quaternion.LookRotation(direction);
-                Quaternion correction = Quaternion.Euler(90, 0, 0); // thử thay đổi giá trị này
+                Quaternion correction = Quaternion.Euler(90, 0, 0);
                 rb.transform.rotation = lookRot * correction;
             }
         }
-
 
         StartCoroutine(DestroyAfterSeconds(bullet, 2f));
     }

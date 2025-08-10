@@ -6,15 +6,14 @@ public class NetworkHealthEnemy : NetworkBehaviour
 {
     [Networked, OnChangedRender(nameof(OnHealthChanged))]
     public float Health { get; set; }
+
     [Header("Enemy Health Settings")]
-    // Biến để lưu máu của enemy
-    public float MaxHealth = 100f;
+    private float MaxHealth = 100f;
 
     [Header("UI Health Bar")]
-    // Biến để lưu thanh máu UI
-    public Slider healthSlider; // slider gắn trên enemy
+    public Slider healthBar; // slider gắn trên enemy
     public Transform uiCanvas;  // canvas world space trên đầu enemy
-    // Biến để lưu camera chính
+
     [Header("Camera")]
     private Camera mainCam;
 
@@ -23,10 +22,10 @@ public class NetworkHealthEnemy : NetworkBehaviour
         mainCam = Camera.main;
         Health = MaxHealth;
 
-        if (healthSlider != null)
+        if (healthBar != null)
         {
-            healthSlider.maxValue = MaxHealth;
-            healthSlider.value = MaxHealth;
+            healthBar.maxValue = MaxHealth;
+            healthBar.value = MaxHealth;
         }
     }
 
@@ -35,18 +34,19 @@ public class NetworkHealthEnemy : NetworkBehaviour
         // Quay thanh máu về phía camera
         if (uiCanvas != null && mainCam != null)
         {
-            // Đặt vị trí thanh máu trên đầu enemy
             uiCanvas.LookAt(mainCam.transform);
             uiCanvas.forward = mainCam.transform.forward;
         }
+        // ❌ Bỏ dòng reset healthBar.value = MaxHealth;
+        // Vì giá trị máu sẽ được cập nhật qua OnHealthChanged()
     }
 
     // Gọi khi máu thay đổi
     private void OnHealthChanged()
     {
-        if (healthSlider != null)
+        if (healthBar != null)
         {
-            healthSlider.value = Health;
+            healthBar.value = Health;
         }
     }
 
@@ -67,7 +67,6 @@ public class NetworkHealthEnemy : NetworkBehaviour
     void Die()
     {
         Debug.Log("Enemy chết!");
-        Runner.Despawn(Object); // Xóa khỏi network
+        Runner.Despawn(Object);
     }
-
 }
