@@ -8656,6 +8656,7 @@ GameObject:
   - component: {fileID: 1364379089}
   - component: {fileID: 1364379088}
   - component: {fileID: 1364379090}
+  - component: {fileID: 1364379091}
   m_Layer: 0
   m_Name: FinishPoint
   m_TagString: Untagged
@@ -8678,12 +8679,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.3933945, y: 1, z: 1}
+  m_Center: {x: 0.19669724, y: 0, z: 0}
 --- !u!4 &1364379089
 Transform:
   m_ObjectHideFlags: 0
@@ -8693,7 +8694,7 @@ Transform:
   m_GameObject: {fileID: 1364379087}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 206.89, y: 2, z: -223.13}
+  m_LocalPosition: {x: 205.19, y: 2, z: -223.13}
   m_LocalScale: {x: 2, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8712,7 +8713,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7312a3d4fbf9ba04b9c4cb62e3e33d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressFText: {fileID: 12054503}
+  pressFText: {fileID: 320026162}
+  completeSceneName: Map1CompleteScene
+--- !u!54 &1364379091
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364379087}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1373139272 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1983377156960148, guid: 0f06ecfa33f4cb348ab804a22c6de5ba, type: 3}
