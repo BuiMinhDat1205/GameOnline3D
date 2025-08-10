@@ -29,21 +29,37 @@ public class BulletScript : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!Object.HasStateAuthority) return;
-        // Gây sát thương cho Player
+
+        Debug.Log($"Bullet hit: {other.name}");
+
+        bool didDamage = false;
+
+        // Try to damage Player
         NetworkHealth playerHealth = other.GetComponent<NetworkHealth>();
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(10); // dùng TakeDamage để tính giáp trước
+            playerHealth.TakeDamage(10);
+            Debug.Log("Damaged player.");
+            didDamage = true;
         }
 
-        // Gây sát thương cho Enemy
+        // Try to damage Enemy
         NetworkHealthEnemy enemyHealth = other.GetComponent<NetworkHealthEnemy>();
         if (enemyHealth != null)
         {
             enemyHealth.RPC_TakeDamage(10);
+            Debug.Log("Damaged enemy.");
+            didDamage = true;
         }
 
-        // Hủy đạn sau khi va chạm
+        if (!didDamage)
+        {
+            Debug.LogWarning($"No damageable component found on {other.name}. Tag: {other.tag}, Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
+        }
+
+        // Despawn bullet
         Runner.Despawn(Object);
     }
+
+
 }
