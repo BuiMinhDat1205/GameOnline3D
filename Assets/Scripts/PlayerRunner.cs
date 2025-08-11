@@ -23,7 +23,7 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
     public void PlayerJoined(PlayerRef player)
     {
         Debug.Log("Spawn Player");
-
+        
         if (player == Runner.LocalPlayer)
         {
             Runner.Spawn(
