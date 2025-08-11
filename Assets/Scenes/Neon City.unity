@@ -1861,7 +1861,6 @@ GameObject:
   - component: {fileID: 242387277}
   - component: {fileID: 242387276}
   - component: {fileID: 242387275}
-  - component: {fileID: 242387280}
   m_Layer: 0
   m_Name: Prototype Runner
   m_TagString: Untagged
@@ -1992,13 +1991,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chooserMode: {fileID: 891524152}
   startGame: {fileID: 620953785}
+  Taoten: {fileID: 1204445220}
   PlayerSpaw:
   - {fileID: 6263809433687209152, guid: 2589152609b5ef840ae682f4498a1ad3, type: 3}
   - {fileID: 1953858070895924410, guid: dcded9400306af4458d2a1a165b427af, type: 3}
-  chooseChatacter: -1
+  chooseChatacter: 0
   vX: 25
   vY: 0
   vZ: -293
+  tenNhapvao: {fileID: 1347825870}
+  name: 
 --- !u!4 &242387279
 Transform:
   m_ObjectHideFlags: 0
@@ -2014,30 +2016,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &242387280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 242387273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23067a4addb3dc84fbc99b85e62241fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerSpaw:
-  - {fileID: 6263809433687209152, guid: 2589152609b5ef840ae682f4498a1ad3, type: 3}
-  - {fileID: 1953858070895924410, guid: dcded9400306af4458d2a1a165b427af, type: 3}
-  chooserMode: {fileID: 891524152}
-  startGame: {fileID: 620953785}
-  Taoten: {fileID: 1204445220}
-  chooseChatacter: 0
-  vX: 0
-  vY: 0
-  vZ: 0
-  tenNhapvao: {fileID: 1347825870}
-  name: 
 --- !u!1 &252823549
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,8 +4186,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 242387280}
-        m_TargetAssemblyTypeName: OnlineGame, Assembly-CSharp
+      - m_Target: {fileID: 242387278}
+        m_TargetAssemblyTypeName: PlayerRunner, Assembly-CSharp
         m_MethodName: CreateNameCharacter
         m_Mode: 1
         m_Arguments:
@@ -5811,8 +5789,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 242387280}
-        m_TargetAssemblyTypeName: OnlineGame, Assembly-CSharp
+      - m_Target: {fileID: 242387278}
+        m_TargetAssemblyTypeName: PlayerRunner, Assembly-CSharp
         m_MethodName: ChooseHuman
         m_Mode: 1
         m_Arguments:
@@ -10156,8 +10134,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 242387280}
-        m_TargetAssemblyTypeName: OnlineGame, Assembly-CSharp
+      - m_Target: {fileID: 242387278}
+        m_TargetAssemblyTypeName: PlayerRunner, Assembly-CSharp
         m_MethodName: ChooseHulk
         m_Mode: 1
         m_Arguments:
