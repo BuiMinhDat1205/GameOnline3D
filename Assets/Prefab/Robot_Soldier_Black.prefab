@@ -2671,6 +2671,8 @@ MonoBehaviour:
   firePoint: {fileID: 6636021416073978293}
   firePrefab: {fileID: 8585542772986347399, guid: f1c24dc36b65de24ab16093f518a7397, type: 3}
   fireCooldown: 1
+  muzzleFlash: {fileID: 198000012944515248, guid: 2e4f0bd29edf94444851c0bf24b0358a, type: 3}
+  fireSound: {fileID: 0}
   chaseDistance: 35
   attackDistance: 25
   animator: {fileID: 9078576871630358676}

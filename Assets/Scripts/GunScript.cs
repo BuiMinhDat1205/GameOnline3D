@@ -10,6 +10,13 @@ public class GunScript : NetworkBehaviour
 
     [SerializeField] private TextMeshProUGUI ammoText;
 
+    // --- Thêm ---
+    [Header("Shoot Effect")]
+    public ParticleSystem muzzleFlash; // Hiệu ứng bắn
+    public AudioSource shootSound;     // Âm thanh bắn
+    public Camera playerCamera;        // Camera để giật khi bắn
+    public float recoilAmount = 1f;    // Mức độ giật
+
     [Networked]
     public int currentAmmo { get; set; } // Số đạn trong băng hiện tại
 
@@ -19,6 +26,7 @@ public class GunScript : NetworkBehaviour
     private int clipSize = 25;           // Kích thước băng đạn
 
     private int lastAmmo = -1;
+    private int lastMaxAmmo = -1;
 
     private void Awake()
     {
@@ -45,8 +53,6 @@ public class GunScript : NetworkBehaviour
             UpdateAmmoUI();
         }
     }
-
-    private int lastMaxAmmo = -1;
 
     void Update()
     {
@@ -90,6 +96,16 @@ public class GunScript : NetworkBehaviour
             anim.ResetTrigger("Shoot");
             anim.SetTrigger("Shoot");
         }
+
+        // --- Thêm hiệu ứng bắn ---
+        if (muzzleFlash != null)
+            muzzleFlash.Play();
+
+        if (shootSound != null)
+            shootSound.Play();
+
+        if (Object.HasInputAuthority && playerCamera != null)
+            playerCamera.transform.localRotation *= Quaternion.Euler(-recoilAmount, 0, 0);
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -136,5 +152,4 @@ public class GunScript : NetworkBehaviour
             ammoText.text = $"{currentAmmo} | {maxAmmo}";
         }
     }
-
 }

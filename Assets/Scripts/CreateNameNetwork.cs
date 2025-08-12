@@ -9,6 +9,9 @@ public class CreateNameNetwork : NetworkBehaviour
 
     [SerializeField] private TextMeshProUGUI ten;
 
+    // 🆕 Thêm biến để hiện text local (chỉ local player thấy)
+    [SerializeField] private TextMeshProUGUI localNote;
+
     public override void Spawned()
     {
         // When the object is spawned, update the name UI
@@ -21,6 +24,21 @@ public class CreateNameNetwork : NetworkBehaviour
         {
             Debug.LogWarning("TextMeshProUGUI reference not assigned in Inspector.");
         }
+
+        // 🆕 Chỉ hiện text này cho local player
+        if (localNote != null)
+        {
+            if (Object.HasInputAuthority)
+            {
+                localNote.gameObject.SetActive(true);
+                // 🆕 Hiển thị theo tên network
+                localNote.text = $"{tenNguoiChoi}";
+            }
+            else
+            {
+                localNote.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ThemTen(string name)
@@ -31,6 +49,12 @@ public class CreateNameNetwork : NetworkBehaviour
         if (ten != null)
         {
             ten.text = name;
+        }
+
+        // 🆕 Nếu là local player thì update luôn localNote
+        if (localNote != null && Object.HasInputAuthority)
+        {
+            localNote.text = $"{name} (Bạn)";
         }
     }
 }

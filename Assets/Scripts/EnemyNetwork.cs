@@ -17,6 +17,10 @@ public class EnemyNetwork : NetworkBehaviour
     public float fireCooldown = 1f;
     private float fireTimer = 0f;
 
+    [Header("Fire Effects")] // 🆕 Hiệu ứng khi bắn
+    public ParticleSystem muzzleFlash; // Hiệu ứng lửa súng
+    public AudioSource fireSound;      // Âm thanh bắn
+
     [Header("Distance Settings")]
     public float chaseDistance = 20f;
     public float attackDistance = 8f;
@@ -175,6 +179,10 @@ public class EnemyNetwork : NetworkBehaviour
             Debug.LogWarning("firePrefab hoặc firePoint chưa được gán!");
             return;
         }
+
+        // 🆕 Hiệu ứng khi bắn
+        if (muzzleFlash != null) muzzleFlash.Play();
+        if (fireSound != null) fireSound.Play();
 
         NetworkObject bullet = Runner.Spawn(firePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
