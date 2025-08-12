@@ -6,7 +6,7 @@ namespace SlimUI.ModernMenu{
 
 		void Update () {
 			if(Input.GetKeyDown("r")){
-				SceneManager.LoadScene(0);
+				SceneManager.LoadScene(1);
 			}
 		}
 	}
