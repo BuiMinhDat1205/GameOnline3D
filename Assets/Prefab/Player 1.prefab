@@ -3807,7 +3807,7 @@ MonoBehaviour:
   shieldSlider: {fileID: 4315137122905231282}
   shieldLocal: {fileID: 5960705191005271804}
   shieldSliderLocal: {fileID: 4897176164408017727}
-  maxHealth: 100
+  maxHealth: 1000
   maxShield: 50
 --- !u!114 &3826113966543943330
 MonoBehaviour:
@@ -3821,7 +3821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5d2f5d6f70f1549924ae6a955101f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doNhayChuot: 50
+  doNhayChuot: 25
   camTransform: {fileID: 1422408569184871421}
   headTransform: {fileID: 5759943281588142621}
 --- !u!114 &6851929162965133106
