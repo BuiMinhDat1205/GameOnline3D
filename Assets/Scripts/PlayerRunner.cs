@@ -30,7 +30,14 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
     public void PlayerJoined(PlayerRef player)
     {
         Debug.Log("Spawn Player");
-        
+
+        // ✅ Thêm check an toàn trước khi truy cập mảng
+        if (chooseChatacter < 0 || chooseChatacter >= PlayerSpaw.Length)
+        {
+            Debug.LogError($"Invalid character index: {chooseChatacter}. PlayerSpaw length: {PlayerSpaw.Length}");
+            chooseChatacter = 0; // fallback về nhân vật đầu tiên
+        }
+
         if (player == Runner.LocalPlayer)
         {
             Runner.Spawn(
@@ -42,25 +49,44 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
             {
                 // Sau khi spawn thành công
                 var playerSetup = obj.GetComponent<PlayerSetUp>();
-                    if (playerSetup != null)
-                    {
-                        playerSetup.SetUpCamera(); // Gắn camera follow player
-                    }
+                if (playerSetup != null)
+                {
+                    playerSetup.SetUpCamera(); // Gắn camera follow player
+                }
 
-                    var createTen = obj.GetComponent<CreateNameNetwork>();
-                    if (createTen != null)
-                    {
-                        createTen.ThemTen(name);
-                    }
+                var createTen = obj.GetComponent<CreateNameNetwork>();
+                if (createTen != null)
+                {
+                    createTen.ThemTen(name);
+                }
             });
             chooserMode.SetActive(false);
         }
         else
         {
-            Debug.LogError($"Invalid character index: {chooseChatacter}. PlayerSpaw length: {PlayerSpaw.Length}");
+            // Giữ nguyên Debug.LogError, nhưng chỉ log nếu index thật sự sai
+            if (chooseChatacter < 0 || chooseChatacter >= PlayerSpaw.Length)
+            {
+                Debug.LogError($"Invalid character index: {chooseChatacter}. PlayerSpaw length: {PlayerSpaw.Length}");
+            }
+            else
+            {
+                // Spawn cho remote player
+                Runner.Spawn(
+                PlayerSpaw[chooseChatacter],
+                new Vector3(vX, vY, vZ),
+                Quaternion.identity,
+                player,
+                (runner, obj) =>
+                {
+                    var createTen = obj.GetComponent<CreateNameNetwork>();
+                    if (createTen != null)
+                    {
+                        createTen.ThemTen(name);
+                    }
+                });
+            }
         }
-
-
     }
 
     public void ChooseHuman()
