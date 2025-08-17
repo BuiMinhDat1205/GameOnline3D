@@ -51,7 +51,6 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                 var playerSetup = obj.GetComponent<PlayerSetUp>();
                 if (playerSetup != null)
                 {
-                    playerSetup.SetUpCamera(); // Gắn camera follow player
                 }
 
                 var createTen = obj.GetComponent<CreateNameNetwork>();

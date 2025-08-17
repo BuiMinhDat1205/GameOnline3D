@@ -34,7 +34,6 @@ public class OnlineGame : SimulationBehaviour, IPlayerJoined
                 var playerSetup = obj.GetComponent<PlayerSetUp>();
                 if (playerSetup != null)
                 {
-                    playerSetup.SetUpCamera();
                 }
                 var createTen = obj.GetComponent<CreateNameNetwork>();
                 if (createTen != null)

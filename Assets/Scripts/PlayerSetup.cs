@@ -1,20 +1,25 @@
-using Fusion;
+﻿using Fusion;
 using UnityEngine;
 
 public class PlayerSetUp : NetworkBehaviour
 {
-    public void SetUpCamera()
+    [Header("References")]
+    public Transform headTransform;              // Gán Head1 vào đây
+    public CameraFollow playerCameraFollow;      // Gán Third Person Aim Camera vào đây
+
+    public override void Spawned()
+    {
+        if (Object.HasInputAuthority)
         {
-            if (Object.HasInputAuthority)
-            {
-                CameraFollow camera = FindFirstObjectByType<CameraFollow>();
-                if (camera != null)
-                {
-                    camera.AssignCamera(transform);
-                }
+            playerCameraFollow.gameObject.SetActive(true);
 
-
-            }
-
+            // Gán follow/lookAt cho Cinemachine vào head
+            playerCameraFollow.AssignCamera(headTransform);
+        }
+        else
+        {
+            // Tắt camera cho player không phải local
+            playerCameraFollow.gameObject.SetActive(false);
         }
     }
+}

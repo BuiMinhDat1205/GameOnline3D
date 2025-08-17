@@ -4,32 +4,39 @@ using UnityEngine;
 public class PlayerMouse : NetworkBehaviour
 {
     public float doNhayChuot = 50f;
-    private float xXoayMat = 0f; // Trục dọc (lên xuống)
-    private float yXoayMat = 0f; // Trục ngang (xoay trái/phải)
+    private float xXoayMat = 0f; // Pitch (lên/xuống)
+    private float yXoayMat = 0f; // Yaw (trái/phải)
 
-    public Transform camTransform;   // Gắn Camera (hoặc Arms)
-    public Transform headTransform;  // Gắn phần đầu/tay để xoay lên xuống
+    [Header("Transform References")]
+    public Transform camTransform;   // Camera trong prefab
+    public Transform headTransform;  // Head (cha của Arms + Gun + FirePoint)
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.None;
+        if (Object.HasInputAuthority)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (!Object.HasInputAuthority) return;
+
         // Input chuột
         float mouseY = Input.GetAxis("Mouse Y") * doNhayChuot * Time.deltaTime;
         float mouseX = Input.GetAxis("Mouse X") * doNhayChuot * Time.deltaTime;
 
-        // Xử lý xoay dọc (chỉ ảnh hưởng đầu, tay, camera)
+        // Xoay pitch
         xXoayMat -= mouseY;
         xXoayMat = Mathf.Clamp(xXoayMat, -90f, 90f);
 
-        // Xử lý xoay ngang (xoay toàn bộ player)
+        // Xoay yaw
         yXoayMat += mouseX;
         transform.rotation = Quaternion.Euler(0f, yXoayMat, 0f);
 
-        // Xoay đầu (tức phần chứa camera và tay)
+        // Xoay head (Arms + Gun + Camera)
         if (headTransform != null)
         {
             headTransform.localRotation = Quaternion.Euler(xXoayMat, 0f, 0f);
