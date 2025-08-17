@@ -41,21 +41,30 @@ public class ScenePortal : NetworkBehaviour
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.F))
         {
-            // Lưu vị trí spawn cho scene mới
             PlayerPrefs.SetFloat("SpawnX", spawnPositionInNewScene.x);
             PlayerPrefs.SetFloat("SpawnY", spawnPositionInNewScene.y);
             PlayerPrefs.SetFloat("SpawnZ", spawnPositionInNewScene.z);
 
-            if (Runner != null && Runner.IsServer)
+            // Replace this line:
+            // var runner = Object.FindFirstObjectByType<NetworkRunner>(); // lấy runner hiện tại
+
+            // With this line:
+            var runner = UnityEngine.Object.FindFirstObjectByType<NetworkRunner>(); // lấy runner hiện tại
+
+            if (runner != null && runner.IsServer)
             {
                 if (localPlayer != null)
                 {
-                    Runner.Despawn(localPlayer); // despawn player cũ
+                    runner.Despawn(localPlayer);
                 }
 
-                // Load scene mới
-                Runner.LoadScene(sceneToLoad);
+                runner.LoadScene(sceneToLoad);
+            }
+            else
+            {
+                Debug.LogError("Không tìm thấy NetworkRunner hoặc bạn không phải Server!");
             }
         }
     }
+
 }
