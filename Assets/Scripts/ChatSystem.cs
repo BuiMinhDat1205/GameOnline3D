@@ -13,6 +13,8 @@ public class ChatSystem : NetworkBehaviour
     public GameObject open;
     public GameObject close;
 
+    private bool isChatOpen = false; // trạng thái chat
+
     public override void Spawned()
     {
         // Nếu chưa gán trên Inspector thì thử tìm bằng tên
@@ -51,6 +53,27 @@ public class ChatSystem : NetworkBehaviour
         }
     }
 
+    void Update()
+    {
+        // Tab để bật/tắt chat
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (isChatOpen)
+                CloseChat();
+            else
+                OpenChat();
+        }
+
+        // Enter để gửi
+        if (isChatOpen && Input.GetKeyDown(KeyCode.Return))
+        {
+            SendMessageChat();
+            // Focus lại input để tiếp tục gõ
+            if (inputFieldMessage != null)
+                inputFieldMessage.ActivateInputField();
+        }
+    }
+
     public void SendMessageChat()
     {
         if (inputFieldMessage == null || textMessage == null) return;
@@ -76,6 +99,11 @@ public class ChatSystem : NetworkBehaviour
         if (open != null) open.SetActive(false);
         if (close != null) close.SetActive(true);
         if (chat != null) chat.SetActive(true);
+        isChatOpen = true;
+
+        // Tự động focus vào input
+        if (inputFieldMessage != null)
+            inputFieldMessage.ActivateInputField();
     }
 
     public void CloseChat()
@@ -83,5 +111,6 @@ public class ChatSystem : NetworkBehaviour
         if (open != null) open.SetActive(true);
         if (close != null) close.SetActive(false);
         if (chat != null) chat.SetActive(false);
+        isChatOpen = false;
     }
 }

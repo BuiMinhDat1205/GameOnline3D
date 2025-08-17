@@ -1,8 +1,9 @@
 ﻿using Fusion;
+using System.Linq; // cần cho Count()
 using TMPro;
 using UnityEngine;
 
-public class PlayerRunner : SimulationBehaviour, IPlayerJoined
+public class PlayerRunner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 {
     public GameObject chooserMode;
     public GameObject startGame;
@@ -20,11 +21,17 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
     public TMP_InputField tenNhapvao;
     public string name;
 
+    [Header("UI Player Count")]
+    public TextMeshProUGUI playerCountText; // Text hiển thị số người chơi
+
     private void Start()
     {
         chooserMode.SetActive(true);
         startGame.SetActive(false);
         Taoten.SetActive(false);
+
+        // cập nhật số người chơi ngay khi start
+        UpdatePlayerCount();
     }
 
     public void PlayerJoined(PlayerRef player)
@@ -85,6 +92,26 @@ public class PlayerRunner : SimulationBehaviour, IPlayerJoined
                     }
                 });
             }
+        }
+
+        // ✅ Cập nhật số player khi có người mới vào
+        UpdatePlayerCount();
+    }
+
+    // ✅ Khi người chơi rời khỏi server
+    public void PlayerLeft(PlayerRef player)
+    {
+        Debug.Log($"Player {player.PlayerId} left");
+        UpdatePlayerCount();
+    }
+
+
+    // ✅ Hàm cập nhật số player
+    private void UpdatePlayerCount()
+    {
+        if (playerCountText != null && Runner != null)
+        {
+            playerCountText.text = $"Players: {Runner.ActivePlayers.Count()}";
         }
     }
 

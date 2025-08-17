@@ -1263,7 +1263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headTransform: {fileID: 1868883867601269352}
-  playerCameraFollow: {fileID: 0}
+  playerCameraFollow: {fileID: 4799908299526230224}
 --- !u!114 &5403406950799923459
 MonoBehaviour:
   m_ObjectHideFlags: 0

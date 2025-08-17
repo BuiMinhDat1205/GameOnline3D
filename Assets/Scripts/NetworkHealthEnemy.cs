@@ -28,6 +28,9 @@ public class NetworkHealthEnemy : NetworkBehaviour
     [Header("Item Drop Settings")]
     public DropItem[] dropItems; // Kéo nhiều item vào đây
 
+    [Header("Spawner Reference")] // 🆕
+    [HideInInspector] public SpawEnemyNetwork spawner; // để báo về Spawner
+
     public override void Spawned()
     {
         mainCam = Camera.main;
@@ -74,6 +77,11 @@ public class NetworkHealthEnemy : NetworkBehaviour
     {
         Debug.Log("Enemy chết!");
         DropItems();
+
+        if (spawner != null) // 🆕 báo về spawner khi enemy chết
+        {
+            spawner.EnemyDied();
+        }
 
         // Đợi một frame trước khi despawn enemy để spawn item kịp xử lý
         StartCoroutine(DelayedDespawn());
