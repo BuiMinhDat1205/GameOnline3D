@@ -57,7 +57,7 @@ public class SpawEnemyNetwork : NetworkBehaviour
     {
         if (enemyCounterText != null)
         {
-            enemyCounterText.text = "Enemies Left: " + RemainingEnemies;
+            enemyCounterText.text = "Enemies: " + RemainingEnemies;
         }
     }
 }
