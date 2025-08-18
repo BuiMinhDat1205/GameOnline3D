@@ -1250,13 +1250,7 @@ MonoBehaviour:
   maxMana: 100
   manaDrainRate: 20
   manaRegenRate: 10
-<<<<<<< HEAD
   manaSlider: {fileID: 5138392492047778700}
-=======
-  manaSlider: {fileID: 5372370171909741484}
-  petPrefab:
-    RawGuidValue: 63bd396381daa364895b6894a751d8ed
->>>>>>> main
 --- !u!114 &5960230670521028236
 MonoBehaviour:
   m_ObjectHideFlags: 0
