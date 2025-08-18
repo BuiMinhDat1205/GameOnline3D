@@ -8,6 +8,8 @@ TagManager:
   - ShieldItem
   - Bullet
   - ManaItem
+  - Enemy
+  - Pet
   layers:
   - Default
   - TransparentFX
