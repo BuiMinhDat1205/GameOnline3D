@@ -39,13 +39,23 @@ public class PlayerMovement : NetworkBehaviour
         _anim = GetComponentInChildren<Animator>(); // lấy Animator từ con (nếu có)
     }
 
+    [SerializeField] private NetworkPrefabRef petPrefab; // thêm ở đầu class
+
     public override void Spawned()
     {
         mana = maxMana;
 
-        // Ẩn thanh mana của player khác
         if (!Object.HasInputAuthority && manaSlider != null)
             manaSlider.gameObject.SetActive(false);
+
+        // --- Spawn Pet ---
+        if (Object.HasInputAuthority)
+        {
+            Runner.Spawn(petPrefab,
+                         transform.position + Vector3.back * 2f,
+                         Quaternion.identity,
+                         Object.InputAuthority);
+        }
     }
 
     void Update()

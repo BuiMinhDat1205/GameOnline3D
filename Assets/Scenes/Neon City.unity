@@ -2026,6 +2026,7 @@ MonoBehaviour:
   PlayerSpaw:
   - {fileID: 6263809433687209152, guid: 2589152609b5ef840ae682f4498a1ad3, type: 3}
   - {fileID: 1953858070895924410, guid: dcded9400306af4458d2a1a165b427af, type: 3}
+  - {fileID: 7800389905381357787, guid: 63bd396381daa364895b6894a751d8ed, type: 3}
   chooseChatacter: 0
   vX: 25
   vY: 0
