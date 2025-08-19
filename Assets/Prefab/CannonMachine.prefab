@@ -14670,7 +14670,7 @@ GameObject:
   - component: {fileID: 4563587606196328154}
   m_Layer: 0
   m_Name: CannonMachine
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14758,6 +14758,7 @@ MonoBehaviour:
     dropChance: 0.769
   - prefab: {fileID: 7286119893847012234, guid: b0f78e6d1ef058444a7389a6d3df86f9, type: 3}
     dropChance: 0.803
+  spawner: {fileID: 0}
 --- !u!195 &7769158516807744950
 NavMeshAgent:
   m_ObjectHideFlags: 0

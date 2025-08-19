@@ -2559,7 +2559,7 @@ GameObject:
   - component: {fileID: 1507217414529867201}
   m_Layer: 0
   m_Name: Robot_Soldier_Black
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2736,6 +2736,7 @@ MonoBehaviour:
     dropChance: 0.708
   - prefab: {fileID: 8449068647432487215, guid: 5b60c123e23cdfc419c96d084b78a02f, type: 3}
     dropChance: 0.5
+  spawner: {fileID: 0}
 --- !u!1 &6982947704812773979
 GameObject:
   m_ObjectHideFlags: 0

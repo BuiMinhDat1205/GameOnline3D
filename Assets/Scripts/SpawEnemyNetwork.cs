@@ -10,54 +10,71 @@ public class SpawEnemyNetwork : NetworkBehaviour
     public Transform[] transformsEnemy;
     public GameObject[] enemyPrefab;
 
-    [Header("Enemy Counter UI")] // 🆕
-    public TextMeshProUGUI enemyCounterText; // kéo UI Text vào Inspector
+    [Header("Enemy Counter UI")]
+    public TextMeshProUGUI enemyCounterText; // UI hiển thị số quái còn lại
+    public TextMeshProUGUI scoreText;        // 🆕 UI hiển thị điểm
 
-    [Networked] // 🆕
+    [Networked]
     public int RemainingEnemies { get; set; }
+
+    [Networked] // 🆕 đồng bộ điểm
+    public int Score { get; set; }
 
     public override void Spawned()
     {
-        // Chỉ thực hiện khi có quyền sở hữu trạng thái
         if (Object.HasStateAuthority)
         {
-            int count = 0; // 🆕 đếm số enemy
+            int count = 0;
 
             for (int i = 0; i < transformsEnemy.Count(); i++)
             {
                 var randomIndex = Random.Range(0, enemyPrefab.Length);
                 var enemyObj = Runner.Spawn(enemyPrefab[randomIndex], transformsEnemy[i].position, transformsEnemy[i].rotation);
 
-                // 🆕 gán spawner để enemy báo ngược lại khi chết
                 var hp = enemyObj.GetComponent<NetworkHealthEnemy>();
                 if (hp != null) hp.spawner = this;
 
                 count++;
             }
 
-            RemainingEnemies = count; // 🆕 gán số enemy ban đầu
+            RemainingEnemies = count;
+            Score = 0; // 🆕 reset điểm khi bắt đầu
         }
 
-        UpdateEnemyUI(); // 🆕 cập nhật UI ban đầu
+        UpdateEnemyUI();
+        UpdateScoreUI(); // 🆕 cập nhật điểm ban đầu
     }
 
-    // 🆕 Hàm gọi khi enemy chết
+    // 🆕 gọi khi enemy chết
     public void EnemyDied()
     {
         if (Object.HasStateAuthority)
         {
             RemainingEnemies--;
             if (RemainingEnemies < 0) RemainingEnemies = 0;
+
+            // 🆕 cộng điểm
+            int randomScore = UnityEngine.Random.Range(10, 51); // 51 để bao gồm 50
+            Score += randomScore;
         }
+
         UpdateEnemyUI();
+        UpdateScoreUI();
     }
 
-    // 🆕 cập nhật text UI
     private void UpdateEnemyUI()
     {
         if (enemyCounterText != null)
         {
             enemyCounterText.text = "Enemies: " + RemainingEnemies;
+        }
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + Score;
         }
     }
 }
