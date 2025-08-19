@@ -28,6 +28,12 @@ public class PlayerMovement : NetworkBehaviour
     public float manaRegenRate = 10f;   // hồi mana/giây khi không chạy
     public Slider manaSlider;           // Thanh mana UI
 
+    [Header("Footstep Settings")]
+    public AudioSource footstepAudioSource;
+    public AudioClip footstepClip;
+    public float footstepInterval = 0.5f; // Time between steps
+    private float footstepTimer = 0f;
+
     // --- Thêm biến quản lý trạng thái không giảm mana ---
     private bool isManaProtected = false;
     private float manaProtectTimer = 0f;
@@ -132,6 +138,25 @@ public class PlayerMovement : NetworkBehaviour
         {
             mana += manaRegenRate * Runner.DeltaTime;
             if (mana > maxMana) mana = maxMana;
+        }
+
+        // --- Footstep Sound ---
+        if (_controller.isGrounded && isMoving && !_isCrouching)
+        {
+            footstepTimer += Runner.DeltaTime;
+            if (footstepTimer >= footstepInterval)
+            {
+                if (footstepAudioSource != null && footstepClip != null)
+                {
+                    footstepAudioSource.pitch = Random.Range(0.95f, 1.05f); // Optional variation
+                    footstepAudioSource.PlayOneShot(footstepClip);
+                }
+                footstepTimer = 0f;
+            }
+        }
+        else
+        {
+            footstepTimer = 0f;
         }
 
         // Animation
